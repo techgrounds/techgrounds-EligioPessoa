@@ -5,12 +5,19 @@
 ## Key-terms
 
 pwd command - Print working directory: laat de volle path zien van de directory waar je nu in bent
+
 root - De directory waar alle andere directories en bestanden in zijn
+
 cd command - Change directory: om van directory te wisselen
+
 ls command - List files and directories
+
 mkdir command - Make directory: om een directory te creëren
+
 vi editor - Full screen editor waarmee text kan gecreërd en bewerkt worden.
+
 cat command - Het inhoud van een text bestand lezen en tonen, onder andere functies.
+
 
 ## Opdracht
 ### Gebruikte bronnen
@@ -21,9 +28,13 @@ Basis linux commands door ervaring opgebouwd
 
 [Stack Exchange](https://unix.stackexchange.com/questions/391915/where-is-the-path-to-the-current-users-desktop-directory-stored ($HOME))
 
+
+
 ### Ervaren problemen
 
 Geen problemen ervaren.
+
+
 
 ### Resultaat
 
