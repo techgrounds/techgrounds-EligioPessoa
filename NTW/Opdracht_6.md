@@ -14,6 +14,8 @@ Subnetting is een methode om een enkele fysieke netwerk te splitsen in _logische
 ## Opdracht
 ### Gebruikte bronnen
 
+https://www.f5.com/glossary/reverse-proxy
+
 https://medium.com/awesome-cloud/aws-vpc-difference-between-internet-gateway-and-nat-gateway
 
 https://stackoverflow.com/questions/57196792/does-a-nat-gateway-require-an-internet-gateway
