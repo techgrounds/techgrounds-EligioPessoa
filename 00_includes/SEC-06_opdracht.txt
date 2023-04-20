@@ -1,0 +1,45 @@
+# Public Key Infrastructure
+Public Key Infrastructure (PKI) omvat alles dat gebruikt wordt om _public key encryption_ vast te stellen en beheren. Dat houdt in _software_, _hardware_, beleid, en procedures die gebruikt worden om digitale certificaten te creëren, verspreiden, beheren, opslagen en intrekken.
+
+Een digitale certificaat verbindt cryptografisch een _public key_ met het apparaat of gebruiker die het bezit. Dit helpt om gebruikers en apparaten te authenticeren en veilige digitale communicatie te garanderen.
+
+PKI heeft twee doelen: om de _privacy_ van het verzonden bericht te garanderen, en te verifieëren dat de verzender is wie hij beweert te zijn.
+
+PKI infrastructuur beschermt en authenticeert communicatie tussen _servers_ en gebruikers, zoals tussen een website (gehost op een web server) en een gebruiker (die via een browser verbindt). Het kan ook gebruikt worden voor veilige communicatie binnen een organisatie om te garanderen dat berichten alleen zichtbaar zijn voor de verzender en de ontvanger, en er is niet mee geknoeid tijdens overdracht.
+
+## Key-terms
+
+
+- **Digitale Certificaten**: Ook _PKI certificates_ of _X.509 certificates_ genoemd. Een digitale certificaat biedt een identiteitsbewijs aan een aanvragende entiteit die geverifieërd is door een derde partij, en werkt zoals een digitale paspoort of rijbewijs.
+
+- **Certificate authority (CA)**: De CA is een vertrouwde entiteit die het digitale certificaat uitgeeft, opslaat en ondertekent. De CA ondertekent de digitale certificaat met zijn eigen _private key_ en publiceert vervolgens de _public key_, die op verzoek toegankelijk is. 
+
+- **Registration Authority (RA)**: De RA verifieërt de indentiteit van de gebruiker of apparaat die de digitale certificaat verzoekt. Dit kan een derde partij zijn, of de CA kan ook als RA handelen.
+
+- **Certificate database**: Deze database slaat het digitale certificaat en de bijbehorende _metadata_ op, inclusief hoe lang het certificaat geldig is.
+
+## Opdracht
+### Gebruikte bronnen
+
+https://www.okta.com/identity-101/public-key-infrastructure/
+
+https://devopscube.com/create-self-signed-certificates-openssl/
+
+https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/
+
+https://www.baeldung.com/openssl-self-signed-cert
+
+### Ervaren problemen
+Geen problemen ervaren.
+
+### Resultaat
+
+### Create a self-signed certificate on your VM.
+
+
+
+### Analyze some certification paths of known websites (ex. techgrounds.nl / google.com / ing.nl).
+
+
+### Find the list of trusted certificate roots on your system (bonus points if you also find it in your VM).
+
