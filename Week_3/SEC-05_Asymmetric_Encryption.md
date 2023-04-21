@@ -24,15 +24,20 @@ Omdat ik een andere plan had die afhankelijk was van mijn strategie van opdracht
 
 - Generate a key pair.
 
-![My Keys](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/SEC-05_mykeys.png)
+![My Keys](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newpair.png)
 
 - Send an asymmetrically encrypted message to one of your peers via the public Slack channel. They should be able to decrypt the message using a key. The recipient should be able to read the message, but it should remain a secret to everyone else. You are not allowed to use any private messages or other communication channels besides the public Slack channel. Analyse the difference between this method and symmetric encryption.
 
 Hiermee kan ik de Public Key van iemand gebruiken om naar hen een privé bericht sturen die alleen zijn kunnen lezen.
 
-![My Slack](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/SEC-05_myslack.png)
+![My Slack] (https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newslack.png)
 
-![Berichten](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/SEC-05_berichten.png)
+![Bericht](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newmsg.png)
 
-![Curt bericht](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/SEC-05_Curt.png)
+![Ander bericht](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newmsg2.png)
 
+![Slack berichten](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newslack2.png)
+
+![Naar mij](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newsjoerd.png)
+
+![Ook naar mij](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/newjen.png)
