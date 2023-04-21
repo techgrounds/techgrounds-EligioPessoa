@@ -1,18 +1,20 @@
 # Passwords
-[Geef een korte beschrijving van het onderwerp]
+
+Een wachtwoord is een arbitraire _string van karakters_, inclusief letters, cijfers, of andere sybolen. Het wordt typisch gebruikt om de identiteit van een gebuiker te bevestigen. Vroeger werd het verwacht dat wachtwoorden onthoud zouden worden. Maar omdat de behoefte aan complexe wachtwoorden steeds groter wordt, en het feite dat één enkele persoon meerdere accounts heeft in meerdere apparaten, is het niet praktisch om wachtwoorden te onthouden.
+
 
 ## Key-terms
 
 
-- **Brute Force Attacks: 
+- **Brute Force Attacks**: Een _brute force attck_ is een _hacking methode_ die _trial and error_ gebruikt om wachtwoorden te kraken. Een hacker probeert een grote aantal combinaties tot hij de goede login of sleutel informatie krijgt. De naam _brute force_ komt van het feite dat aanvallers buitengewone krachtige pogingen maken om toegang te krijgen naar gebruikersaccounts. Al is het een oude methode, het blijft een populaire taktiek tussen hackers.
 
-- Encryption: het proces waarbij gegevens worden omgezet in een reeks onleesbare tekens die geen vaste lengte hebben. Data versleuteling gebeurt door het gebruik van cryptografische sleutels. De data is versleuteld voordat het verzonden wordt en gedecodeerd door de gebruiker. Data versleuteling draait vooral om het bevestigen van identiteit en het beschermen van gegevensintegriteit.
+- **Encryption**: het proces waarbij gegevens worden omgezet in een reeks onleesbare tekens die geen vaste lengte hebben. Data versleuteling gebeurt door het gebruik van cryptografische sleutels. De data is versleuteld voordat het verzonden wordt en gedecodeerd door de gebruiker. Data versleuteling draait vooral om het bevestigen van identiteit en het beschermen van gegevensintegriteit.
 
   - De oorsprong van versleutelde berichten kan getraceerd worden, waardoor authenticatie van de bron makkelijk wordt.
   - In het geval dat de data gelekt wordt, het is makkelijk om te traceren wie het gedaan heeft en wanneer, waardoor het controleren op verantwoording eenvoudig wordt. Het helpt bij het efficiënt oplossen van veiligheidsinbreuken.
   - Data wordt versleuteld op een manier dat alleen degenen met de juiste sleutel kunnen de data lezen.
 
-- Hashing: Een eenzijdig proces die een algoritme gebruikt om data te nemen en om te zetten naar een _hash value_ (ook bekend als _hash digest_). De lengte van de gegenereerde hash is meestal vastgesteld, en kleiner dan de originele tekst; hoewel het sterk varieert met zelfs de kleinste variaties. Het is bijna onmogelijk om een goede _hashing digest_ terug te draaien naar zijn originele form. De toepassingen van _hashing_ zijn:
+- **Hashing**: Een eenzijdig proces die een algoritme gebruikt om data te nemen en om te zetten naar een _hash value_ (ook bekend als _hash digest_). De lengte van de gegenereerde hash is meestal vastgesteld, en kleiner dan de originele tekst; hoewel het sterk varieert met zelfs de kleinste variaties. Het is bijna onmogelijk om een goede _hashing digest_ terug te draaien naar zijn originele form. De toepassingen van _hashing_ zijn:
 
   - Hashing dient als een _checksum_ om te garanderen dat een bepaalde stuk data of een bestand niet is gewijzigd.
   - Het helpt een gegeven waarde te vergelijken met een die opgeslagen is, en vermijdt daarmee duplicatie.
@@ -20,9 +22,10 @@
   - Het helpt om specifieke data in een grote database te vinden.
   - Hashing algoritmes worden gebruikt als een digitale certificaat en cryptografische applicaties.
 
-- Rainbow Table: Een _hacking tool_ die een vooraf berekende tabel gebruikt met omgekeerd wachtwoord hashes om wachtwoorden in een database te kraken. Terwijl ze security beheerders een methode geven om wachtwoord beveiligingsstandaarden te testen, ze geven ook _hackers_ een manier om snel wachtwoorden te kraken en ongeautorizeerde toegang naar computer systemen te krijgen. _Rainbow_ verwijst naar de verschillende kleuren in de tabel om verschillende _hashing_ en reductie functies, en stappen. Als iedere reductie functie een andere kleur is, dan zien de laatste _plaintexts_ en _hashes_ er uit als een regenboog.
+- **Rainbow Table**: Een _hacking tool_ die een vooraf berekende tabel gebruikt met omgekeerd wachtwoord hashes om wachtwoorden in een database te kraken. Terwijl ze security beheerders een methode geven om wachtwoord beveiligingsstandaarden te testen, ze geven ook _hackers_ een manier om snel wachtwoorden te kraken en ongeautorizeerde toegang naar computer systemen te krijgen. _Rainbow_ verwijst naar de verschillende kleuren in de tabel om verschillende _hashing_ en reductie functies, en stappen. Als iedere reductie functie een andere kleur is, dan zien de laatste _plaintexts_ en _hashes_ er uit als een regenboog.
 
-- Reduction Function: 
+- **Reduction Function**: Een wiskundige functie die een grote aantal mogelijke waarden indeelt naar een kleinere aantal mogelijke waarden, en wordt typisch gebruikt om de output van een _hash functie_ om te zetten naar een specifieke reeks waarden.
+
 
 ![rainbow](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/SEC-07_rainbow_table-536x288.png)
 
@@ -45,7 +48,8 @@ https://www.techtarget.com/whatis/definition/rainbow-table
 
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+
+Geen problemen ervaren.
 
 ### Resultaat
 
@@ -57,7 +61,7 @@ Het hoofdverschil tussen _encryption_ en _hashing_ ligt in het feite dat, in het
 | Hashing | Encryption |
 | ------- | ---------- |
 | Data is _hashed_ naar een onleesbare _string_ die niet teruggedraaid kan worden naar een leesbare form | De versleutelde data kan gedecodeerd en omgezet worden naar leesbare form met een cryptografische sleutel |
-| De onleesbare karakters hebben een vaste lengte | De onlessbare karakters hebben geen vaste lengte |
+| De onleesbare karakters hebben een vaste lengte | De onleesbare karakters hebben geen vaste lengte |
 | Er worden geen sleutels gebruikt in hashing | Versleuteling gebeurt met gebruik van sleutels. Bij symmetrische encryptie, alleen een publieke sleutel is gebruikt. Bij asymmetrische encryptie, privé en publieke sleutels worden gebuikt |
 
 ### Find out how a Rainbow Table can be used to crack hashed passwords.
