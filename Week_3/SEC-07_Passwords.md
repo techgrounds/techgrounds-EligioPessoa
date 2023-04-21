@@ -22,7 +22,10 @@ Een wachtwoord is een arbitraire _string van karakters_, inclusief letters, cijf
   - Het helpt om specifieke data in een grote database te vinden.
   - Hashing algoritmes worden gebruikt als een digitale certificaat en cryptografische applicaties.
 
-- **Rainbow Table**: Een _hacking tool_ die een vooraf berekende tabel gebruikt met omgekeerd wachtwoord hashes om wachtwoorden in een database te kraken. Terwijl ze security beheerders een methode geven om wachtwoord beveiligingsstandaarden te testen, ze geven ook _hackers_ een manier om snel wachtwoorden te kraken en ongeautorizeerde toegang naar computer systemen te krijgen. _Rainbow_ verwijst naar de verschillende kleuren in de tabel om verschillende _hashing_ en reductie functies, en stappen. Als iedere reductie functie een andere kleur is, dan zien de laatste _plaintexts_ en _hashes_ er uit als een regenboog.
+- **Salting**: Een unieke waarde die toegevoegd kan worden aan het einde van een wachtwoord om een andere hash value te creëren. Dit voegt een aditionele laag beveiliging toe aan de _hashing proces_.
+
+- **Rainbow Table**: Een _hacking tool_ die een vooraf berekende tabel gebruikt met omgekeerd wachtwoord hashes om wachtwoorden in een database te kraken. Terwijl ze security beheerders een methode geven om wachtwoord beveiligingsstandaarden te testen, ze geven ook _hackers_ een manier om snel wachtwoorden te kraken en ongeautorizeerde toegang naar computer systemen te krijgen. _Rainbow_ verwijst naar de verschillende kleuren in de tabel om verschillende _hashing_ en reductie functies en stappen te laten zien. Als iedere reductie functie een andere kleur is, dan zien de laatste _plaintexts_ en _hashes_ er uit als een regenboog.
+
 
 - **Reduction Function**: Een wiskundige functie die een grote aantal mogelijke waarden indeelt naar een kleinere aantal mogelijke waarden, en wordt typisch gebruikt om de output van een _hash functie_ om te zetten naar een specifieke reeks waarden.
 
@@ -45,7 +48,7 @@ https://www.thesecurityblogger.com/understanding-rainbow-tables/
 
 https://www.techtarget.com/whatis/definition/rainbow-table
 
-
+https://www.thesslstore.com/blog/difference-encryption-hashing-salting/
 
 ### Ervaren problemen
 
