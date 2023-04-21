@@ -51,7 +51,7 @@ De Web Server en Database Server verbind ik direct met de router, omdat ze allem
 
 De 5 workstations verbind ik met elkaar via een switch, samen met de printer die door die workstations gedeeld wordt. Ik maak er een star topologie van, omdat het weinig workstations zijn.
 
-De File Server blijft in de interne netwerk, omdat het voor interne documenten bestemd is. Hetzelfde gaat voor de AD Server, die gevoelige informatie bevat, en verder niet voor het publiek toegankelijk hoeft te zijn.
+De File Server blijft in de interne netwerk, omdat het voor interne documenten bestemd is. Hetzelfde gaat voor de AD Server, die gevoelige informatie bevat, en verder niet voor het publiek toegankelijk hoeft te zijn. Ze horen wel apart van de workstations te zijn, om te zorgen dat niemand die ze gebruikt ongeautoriseerde toegang heeft tot de gevoelige data die er in staat.
 
 
 ![Case Study](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/NTW07CaseStudy.drawio.png)
