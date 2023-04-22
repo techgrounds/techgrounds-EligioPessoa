@@ -58,14 +58,14 @@ Geen problemen ervaren.
 
 ### Find out what hashing is and why it is preferred over symmetric encryption for storing passwords.
 
-Het hoofdverschil tussen _encryption_ en _hashing_ ligt in het feite dat, in het geval van versleuteling de data kan gedecodeerd worden om de originele tekst data te tonenmet behulp van de juiste _key_; in _hashing_ dit kan helemaal niet. Dus iemand die naar een hash kijkt zal nooit kunnen weten wat de bijbehorende tekst is.
+Het hoofdverschil tussen _encryption_ en _hashing_ ligt in het feite dat, in het geval van versleuteling de data kan gedecodeerd worden om de originele tekst data te tonen met behulp van de juiste _key_; in _hashing_ dit kan helemaal niet. Dus iemand die naar een hash kijkt zal nooit kunnen weten wat de bijbehorende tekst is.
 
 
 | Hashing | Encryption |
 | ------- | ---------- |
 | Data is _hashed_ naar een onleesbare _string_ die niet teruggedraaid kan worden naar een leesbare form | De versleutelde data kan gedecodeerd en omgezet worden naar leesbare form met een cryptografische sleutel |
 | De onleesbare karakters hebben een vaste lengte | De onleesbare karakters hebben geen vaste lengte |
-| Er worden geen sleutels gebruikt in hashing | Versleuteling gebeurt met gebruik van sleutels. Bij symmetrische encryptie, alleen een publieke sleutel is gebruikt. Bij asymmetrische encryptie, privé en publieke sleutels worden gebuikt |
+| Er worden geen sleutels gebruikt in hashing | Versleuteling gebeurt met gebruik van sleutels. Bij symmetrische encryptie, alleen een privé sleutel is gebruikt. Bij asymmetrische encryptie, privé en publieke sleutels worden gebuikt |
 
 ### Find out how a Rainbow Table can be used to crack hashed passwords.
 
