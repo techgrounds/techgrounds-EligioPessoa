@@ -2,7 +2,9 @@
 [Geef een korte beschrijving van het onderwerp]
 
 ## Key-terms
-[Schrijf hier een lijst met belangrijke termen met eventueel een korte uitleg.]
+
+- **Security Group**: _AWS Security Groups_ zijn software gedefinieerde firewalls die het verkeer naar EC2-instanties regelen. Met andere woorden, een Security Group is een reeks beleidsregels die bepalen met welke andere _resources_ op het netwerk je op EC2 gebaseerde virtuele machines kunnen communiceren. Security Groups kunnen ook specificeren welke netwerkprotocollen gebruikt mogen worden door EC2-instanties.
+- **Access Control List**: In AWS is ACL een beveiligingsfunctie die helpt bij het beheren van de toegang tot objecten die zijn opgeslagen in Amazon S3-buckets. ACL's zijn in wezen een set regels die bepalen welke AWS-accounts of groepen toestemming krijgen voor toegang tot specifieke S3-objecten of -buckets.
 
 ## Opdracht
 ### Gebruikte bronnen
@@ -28,5 +30,9 @@ https://docs.aws.amazon.com/managedservices/latest/userguide/restrict-nacl.html
 ### Resultaat
 
 Study:
-Security Groups in AWS
-Network Access Control Lists in AWS
+- Security Groups in AWS
+
+
+
+
+- Network Access Control Lists in AWS
