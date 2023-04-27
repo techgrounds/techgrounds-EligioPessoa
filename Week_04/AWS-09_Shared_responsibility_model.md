@@ -12,7 +12,7 @@ https://aws.amazon.com/compliance/shared-responsibility-model/
 https://docs.aws.amazon.com/whitepapers/latest/aws-risk-and-compliance/shared-responsibility-model.html
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren
 
 ### Resultaat
 
