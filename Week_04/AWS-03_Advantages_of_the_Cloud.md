@@ -17,7 +17,7 @@ https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cl
 https://aws.plainenglish.io/six-advantages-of-cloud-computing-caa2cccc0696?gi=66bc4fe0e85a
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren.
 
 ### Resultaat
 
