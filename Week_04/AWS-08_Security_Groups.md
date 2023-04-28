@@ -29,7 +29,7 @@ https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
 https://docs.aws.amazon.com/managedservices/latest/userguide/restrict-nacl.html
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren.
 
 ### Resultaat
 
