@@ -4,7 +4,7 @@
 
 ## Key-terms
 
-
+- **Mounting**: In AWS verwijst _mounting_ naar het proces van het verbinden en beschikbaar maken van een opslagapparaat, zoals een Amazon Elastic Block Store (EBS)-volume of Amazon S3-bucket, naar een bestandssysteem. Hierdoor kan het opslagapparaat worden geopend en gebruikt alsof het een onderdeel is van het lokale bestandssysteem van een EC2-instantie of een andere AWS-service.
 - **Block Storage**: Technologie die gegevensopslag en opslagapparaten bestuurt. Het neemt alle gegevens, zoals een bestand of database-item, en verdeelt deze in blokken van gelijke grootte. Het _block storage_ systeem slaat vervolgens het gegevensblok op de onderliggende fysieke opslag op een manier op die is geoptimaliseerd voor snelle toegang en ophalen. Ontwikkelaars geven de voorkeur aan blokopslag voor toepassingen die efficiënte, snelle en betrouwbare gegevenstoegang vereisen. Beschouw blokopslag als een directere pijplijn naar de gegevens. Bestandsopslag heeft daarentegen een extra laag die bestaat uit een bestandssysteem (NFS, SMB) dat moet worden verwerkt voordat toegang tot de gegevens wordt verkregen.
 - **Snapshot**: Een EBS-snapshot is een point-in-time back-up van een EBS-volume. Het is een kopie van de gegevens op je EBS-volume. Als je een backup van een EC2-instantie wilt maken, moet je EBS-snapshots maken van de EBS-volumes die aan de _instance_ zijn gekoppeld. Dit is een goede noodhersteloplossing voor een EBS-volume.
 
