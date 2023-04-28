@@ -1,11 +1,26 @@
 # Elastic Block Store (EBS)
-[Geef een korte beschrijving van het onderwerp]
+
+**AWS Elastic Block Store (EBS)** is de opslagoplossing op blokniveau van Amazon die wordt gebruikt met de EC2-cloudservice om persistente gegevens op te slaan. Dit betekent dat de gegevens op de AWS EBS-servers worden bewaard, zelfs wanneer de EC2-instanties worden afgesloten. EBS biedt dezelfde prestaties met hoge beschikbaarheid en lage latentie binnen de geselecteerde beschikbaarheidszone, waardoor gebruikers opslagcapaciteit kunnen schalen tegen een laag abonnementsgebaseerd prijsmodel. De datavolumes kunnen dynamisch worden gekoppeld, losgekoppeld en geschaald met elke EC2-instantie, net als een fysieke blokopslagschijf.
 
 ## Key-terms
-[Schrijf hier een lijst met belangrijke termen met eventueel een korte uitleg.]
+
+
+- **Block Storage**: Technologie die gegevensopslag en opslagapparaten bestuurt. Het neemt alle gegevens, zoals een bestand of database-item, en verdeelt deze in blokken van gelijke grootte. Het _block storage_ systeem slaat vervolgens het gegevensblok op de onderliggende fysieke opslag op een manier op die is geoptimaliseerd voor snelle toegang en ophalen. Ontwikkelaars geven de voorkeur aan blokopslag voor toepassingen die efficiënte, snelle en betrouwbare gegevenstoegang vereisen. Beschouw blokopslag als een directere pijplijn naar de gegevens. Bestandsopslag heeft daarentegen een extra laag die bestaat uit een bestandssysteem (NFS, SMB) dat moet worden verwerkt voordat toegang tot de gegevens wordt verkregen.
+- **Snapshot**: Een EBS-snapshot is een point-in-time back-up van een EBS-volume. Het is een kopie van de gegevens op je EBS-volume. Als je een backup van een EC2-instantie wilt maken, moet je EBS-snapshots maken van de EBS-volumes die aan de _instance_ zijn gekoppeld. Dit is een goede noodhersteloplossing voor een EBS-volume.
+
+De Snapshot mogelijkheid is cruciaal tot bedrijfscontinuïteitsplannen voor bedrijfskritische apps en services. Gebruikers kunnen Recovery Time Objectives (RTO) en Recovery Point Objectives (RPO) definiëren en de snapshots beheren om aan die doelstellingen te voldoen. Naast de doelstellingen voor gegevensback-up en noodherstel, gebruiken klanten EBS Snapshots ook om productiegegevens vast te leggen voor testen en ontwikkeling. EBS-snapshots en -volumes ondersteunen ook codering, waardoor gebruikers indien nodig aangepaste CMK kunnen maken vanuit de AWS IAM-beheerconsole.
 
 ## Opdracht
 ### Gebruikte bronnen
+
+
+https://aws.amazon.com/what-is/block-storage/
+
+https://www.bmc.com/blogs/aws-ebs-elastic-block-store/
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html
+
+https://blog.skeddly.com/2017/03/ebs-snapshots-explained.html
 
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html
@@ -23,6 +38,16 @@ https://stackoverflow.com/questions/25838962/permission-denied-when-accessing-ne
 - Op de laatste fase, lukte het mij niet om de tweede volume te mounten. Na herstarten lukte het wel
 
 ### Resultaat
+
+AWS EBS verschilt van de standaard EC2 Instance Store, die slechts tijdelijke opslag biedt die beschikbaar is op de fysieke EC2-hostservers. De EC2 Instance Store is handig voor tijdelijke gegevensinhoud zoals caches, buffers of bestanden die over de gehoste servers worden gerepliceerd. Voor gegevens die permanent beschikbaar moeten zijn, ongeacht de levensduur van een EC2-instantie, biedt AWS EBS de volgende opties voor opslagvolumes:
+
+- **General Purpose SSD (gp2)**: Een optimale balans tussen kosten en prestaties voor uiteenlopende IT-workloads. Toepassingen zijn onder andere virtuele desktops, apps, ontwikkel- en testomgevingen.
+- **Provisioned IOPS SSD (io1)**: De krachtige functionaliteit is met name geschikt voor bedrijfskritische IT-workloads. Geschikte toepassingen zijn onder meer grote databases en zakelijke apps die 16.000 IOPS of 250 MiB/s throughput per volume vereisen.
+
+
+- **Throughput Optimized HDD (st1)**: Een goedkoop alternatief voor werklasten met grote opslagvolumes en hoge throughput vereisten. Voorbeelden zijn het streamen van workloads, big data-applicaties, logverwerking en data warehousing.
+- **Cold HDD (sc1)**: Een goedkoop alternatief voor gebruiksscenario's met een vereiste om minimale kosten te behouden voor gegevensopslag van grote volumes. Voorbeelden hiervan zijn workloads die minder vaak worden gebruikt.
+
 
 #### Exercise 1:
 Navigate to the EC2 menu.
