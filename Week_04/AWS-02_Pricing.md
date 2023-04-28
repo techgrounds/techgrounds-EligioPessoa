@@ -1,6 +1,6 @@
 # Pricing
 
-AWS biedt een _pay-as-you-go benadering voor prijzen voor de overgrote meerderheid van hun cloud services. Met AWS betaalt men alleen voor de individuele services die ze nodig hebben, zolang ze worden gebruikt, en zonder langlopende contracten of ingewikkelde licenties. AWS prijzen zijn vergelijkbaar met hoe iemaand voor nutsvoorzieningen betaalt, zoals water en elektriciteit. Men betaalt alleen voor de diensten die verbruikt worden, en als ermee gestopt wordt zijn er geen extra kosten of beëidigingskosten.
+AWS biedt een _pay-as-you-go_ benadering voor prijzen voor de overgrote meerderheid van hun cloud services. Met AWS betaalt men alleen voor de individuele services die ze nodig hebben, zolang ze worden gebruikt, en zonder langlopende contracten of ingewikkelde licenties. AWS prijzen zijn vergelijkbaar met hoe iemand voor nutsvoorzieningen betaalt, zoals water en elektriciteit. Men betaalt alleen voor de diensten die verbruikt worden, en als ermee gestopt wordt zijn er geen extra kosten of beëidigingskosten.
 
 ## Key-terms
 
@@ -12,11 +12,19 @@ AWS biedt een _pay-as-you-go benadering voor prijzen voor de overgrote meerderhe
 ### Gebruikte bronnen
 
 https://aws.amazon.com/pricing/
+
 https://acloudguru.com/forums/aws-certified-cloud-practitioner/benefit-from-massive-economies-of-scale-can-someone-explain-this-to-me-in-more-detail-please
+
 https://www.tierpoint.com/blog/capex-vs-opex-cloud-whats-the-difference/
 
+https://aws.amazon.com/blogs/aws-cloud-financial-management/using-the-right-tools-for-your-cloud-cost-forecasting/
+
+https://www.techmagic.co/blog/aws-pricing-model-overview/
+
+https://www.romexsoft.com/blog/aws-cost-optimization-how-cost-saving-works-in-amazon-cloud/#Lower_costs_with_AWS
+
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren
 
 ### Resultaat
 Study:
@@ -36,13 +44,11 @@ Study:
 
 #### Understand the differences between capex and opex
 
-**CapEx** zijn grote investeringen in bedrijfskritische vaste activa, terwijl OpEx zijnd de kosten die verband houden met de dagelijkse activiteiten.
+**CapEx** zijn grote investeringen in bedrijfskritische vaste activa, terwijl **OpEx** zijnd de kosten die verband houden met de dagelijkse activiteiten.
 
 In het geval van cloud computing zijn CapEx allemaal cloudgerelateerd en verwijzen ze naar de kosten die de organisatie moet maken om vaste activa te kopen die blijvende langetermijnvoordelen bieden tot ver na het huidige belastingjaar. 
 
-Doorgaans zijn deze activa grote, eenmalige investeringen waarvan het bedrijf alleen eigenaar izal zijn nadat de transactie is voltooid. Aangezien dit dure aankopen zijn met een hoge overweging, moet er voldoende planning (om nog maar te zwijgen van een langdurig goedkeuringsproces) worden voltooid voordat het activum wordt verworven. 
-
-Het kan enige tijd duren voordat een bedrijf haar CapEx investeringen kan benutten. Een organisatie kan bijvoorbeeld de vastgoedtransactie voor een datacenter voltooien, maar ze kunnen het activum niet onmiddellijk gebruiken omdat ze de ruimte nog moeten uitbouwen.
+Doorgaans zijn deze activa grote, eenmalige investeringen waarvan het bedrijf alleen eigenaar zal zijn nadat de transactie is voltooid. Aangezien dit dure aankopen zijn met een hoge overweging, moet er voldoende planning (om nog maar te zwijgen van een langdurig goedkeuringsproces) worden voltooid voordat het activum wordt verworven. Het kan enige tijd duren voordat een bedrijf haar CapEx investeringen kan benutten. Een organisatie kan bijvoorbeeld de vastgoedtransactie voor een datacenter voltooien, maar ze kunnen het activum niet onmiddellijk gebruiken omdat ze de ruimte nog moeten uitbouwen.
 
 
 **OpEx** in cloud computing is vergelijkbaar met een traditionele OpEx strategie. Net als bij CapEx ondersteunen alle bedrijfskosten echter public cloud-, private cloud-, hybride cloud- en/of multitenant-cloudinitiatieven. In plaats van te draaien om een grote vooruitbetaling, zijn OpEx aankopen doorgaans op basis van betalen per gebruik of op basis van een abonnement. Daarmee zijn OpEx activa niet alleen eigendom van de organisatie die ze gebruikt, maar van de dienstverlener. Bovendien zijn deze activa over het algemeen direct beschikbaar voor gebruik (of zeer snel nadat het contract is ondertekend), terwijl het enige tijd kan duren voordat de voordelen van CpEx activa na de initiële investering kunnen worden benut.
@@ -55,4 +61,11 @@ Exercise:
 ![alert](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/alert100.png)
 
 #### Understand the options that AWS offers to get insights in your cloud costs.
+
+
+
+- **AWS Cost Explorer**: de lichtste oplossing voor het visualiseren en voorspellen van kosten en gebruik. Cost Explorer is toegankelijk via de AWS Billing Console om snel en gemakkelijk toegang te krijgen tot vooraf gemaakte prognoses.
+- **Amazon QuickSight**: een eenvoudige manier om _Machine learning (ML)_ te gebruiken om een prognose te maken. QuickSight is een cloud-native, serverloze, business intelligence service die helpt bij het maken van prognoses en visuals voor alle tijdreeksstatistieken, zonder dat enige ML ervaring vereist is.
+- **Amazon Forecast**: de meest aanpasbare van de drie. Forecast is een volledig beheerde ML service die het gemakkelijk maakt om een voorspeller te trainen en een voorspelling te maken met behulp van tientallen ingebouwde algoritmetypen.
+
 
