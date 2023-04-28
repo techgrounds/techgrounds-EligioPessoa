@@ -22,7 +22,7 @@ https://www.youtube.com/watch?v=0Gz-PUnEUF0
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren
 
 ### Resultaat
 
