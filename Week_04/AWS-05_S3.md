@@ -1,6 +1,6 @@
 # Simple Storage Service (S3)
 
-Amazon Simple Storage Service (Amazon S3) is een schaalbare, snelle, webgebaseerde cloudopslagservice. De service is ontworpen voor online back-up en archivering van gegevens en applicaties op Amazon Web Services (AWS). Amazon S3 is ontworpen met een minimale functieset en gemaakt om web-scale computing eenvoudiger te maken voor developers.
+**Amazon Simple Storage Service (Amazon S3)** is een schaalbare, snelle, webgebaseerde cloudopslagservice. De service is ontworpen voor online back-up en archivering van gegevens en applicaties op Amazon Web Services (AWS). Amazon S3 is ontworpen met een minimale functieset en gemaakt om web-scale computing eenvoudiger te maken voor developers.
 
 ## Key-terms
 
@@ -24,7 +24,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/userguide/HostingWebsiteOnS3Setup.ht
 https://www.youtube.com/watch?v=mDRoyPFJvlU (Amazon/AWS S3 (Simple Storage Service) Basics | S3 Tutorial, Creating a Bucket | AWS for Beginners)
 
 ### Ervaren problemen
-[Geef een korte beschrijving van de problemen waar je tegenaan bent gelopen met je gevonden oplossing.]
+Geen problemen ervaren.
 
 ### Resultaat
 
@@ -56,4 +56,5 @@ Enable static website hosting.
 ![info](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS-05infowebsite.png)
 #### Share the bucket website endpoint with a peer. Make sure they are able to see the website.
 
+![acl](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS-05acl2.png)
 ![website](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS-05staticwebsite.png)
