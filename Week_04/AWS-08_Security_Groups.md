@@ -41,6 +41,11 @@ Study:
 
 - Network Access Control Lists in AWS
 
+In een VPC helpen zowel Security Groups als Network ACL's samen om een gelaagde netwerkverdediging op te bouwen.
+- **Security Groups**: fungeren als een virtuele firewall voor gekoppelde instanties en controleren zowel inkomend als uitgaand verkeer op _instance_ niveau.
+- **Network Access Control Lists (NACL's)** - Fungeren als een firewall voor gekoppelde subnetten, waarbij zowel inkomend als uitgaand verkeer op _subnet_ niveau wordt beheerd.
+
+
 In vergelijking met _Security Groups_ is een ACL moeilijker in te stellen omdat er meer velden geconfigureerd moeten worden dan Security Groups vereisen. ACL's zijn ook ontworpen om verkeer op subnetniveau te beheren in plaats van op het niveau van individuele VM-instanties, dus ze bieden niet zo veel granulaire controle.
 
 
