@@ -5,7 +5,7 @@ Cloud computing biedt verschillende voordelen ten opzichte van traditionele _on-
 Bovendien bieden cloudproviders zoals AWS een scala aan _services_ en _tools_ die het eenvoudig maken om applicaties in de cloud te bouwen, implementeren en beheren. Hierdoor kunnen organisaties zich concentreren op hun kernactiviteiten, terwijl ze het beheer en onderhoud van hun IT infrastructuur aan experts overlaten.
 
 ## Key-terms
-[Schrijf hier een lijst met belangrijke termen met eventueel een korte uitleg.]
+
 
 ## Opdracht
 ### Gebruikte bronnen
