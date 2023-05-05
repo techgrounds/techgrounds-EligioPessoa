@@ -22,6 +22,9 @@ https://dev.to/aws-builders/create-and-connect-to-rds-aurora-serverless-mysql-da
 
 https://www.percona.com/blog/when-should-i-use-amazon-aurora-and-when-should-i-use-rds-mysql/
 
+https://medium.com/awesome-cloud/aws-difference-between-amazon-aurora-and-amazon-rds-comparison-aws-aurora-vs-aws-rds-databases-60a69dbec41f
+
+https://jayendrapatil.com/aws-rds-aurora/
 
 ### Ervaren problemen
 
