@@ -51,10 +51,11 @@ This Security Group will be attached to our instances but it will also be attach
 
 #### Commands
 
+```
 sudo yum -y update
 mkdir ~/efs-mount-point
 sudo yum install -y amazon-efs-utils
-
+```
 
 #### Change Security Group from default to EFS
  We've enabled the mount points only in the 1A and 1B availability zones and we have a security group attached and that Security Group will allow inbound access on the NFS Port from the instances because they are in the security group)
@@ -63,7 +64,7 @@ sudo yum install -y amazon-efs-utils
 
 #### Mount EFS File System
 
-sudo mount -t efs -o tls fs-070d39c6ec8f92f0f.efs.eu-central-1.amazonaws.com:/ ~/efs-mount-point
+`sudo mount -t efs -o tls fs-070d39c6ec8f92f0f.efs.eu-central-1.amazonaws.com:/ ~/efs-mount-point`
 
 #### Create directory and file into first EC2 instance
 
