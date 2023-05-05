@@ -108,6 +108,7 @@ Scaling policy: Target tracking with a target of 60% average CPU utilisation
 
 
 ![asg3](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS11createautoscaling3.png)
+![tracking](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS11trackingpolicy.png)
 
 Group metrics collection in CloudWatch must be enabled
 ![alerts](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/AWS11alerts.png)
