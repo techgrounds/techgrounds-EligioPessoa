@@ -28,6 +28,8 @@ https://avinetworks.com/glossary/aws-route-53/
 
 https://blog.runcloud.io/cloudflare-vs-route-53/
 
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html
+
 ### Ervaren problemen
 Geen problemen ervaren
 
