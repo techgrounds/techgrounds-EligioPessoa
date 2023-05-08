@@ -31,6 +31,10 @@ https://docs.aws.amazon.com/wellarchitected/latest/userguide/intro.html
 
 https://medium.com/@avinash90006/summary-on-aws-well-architected-framework-60adf14b76b5
 
+https://medium.com/nordhero/practical-sustainability-in-aws-cloud-a02fc818a78a
+
+https://aws.amazon.com/blogs/aws/new-customer-carbon-footprint-tool/
+
 
 ### Ervaren problemen
 Geen problemen ervaren
