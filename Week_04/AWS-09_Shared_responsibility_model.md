@@ -9,6 +9,8 @@
 
 https://aws.amazon.com/compliance/shared-responsibility-model/
 
+https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-shared-responsibility-model/
+
 https://docs.aws.amazon.com/whitepapers/latest/aws-risk-and-compliance/shared-responsibility-model.html
 
 ### Ervaren problemen
