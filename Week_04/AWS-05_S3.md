@@ -15,6 +15,8 @@ Een object moet binnen een bucket bestaan, omdat het niet alleen kan bestaan. El
 ## Opdracht
 ### Gebruikte bronnen
 
+[Bucket policy vs IAM vs ACL](https://stackoverflow.com/questions/47815526/s3-bucket-policy-vs-access-control-list)
+
 https://www.techtarget.com/searchaws/definition/AWS-bucket
 
 https://www.techtarget.com/searchaws/definition/Amazon-Simple-Storage-Service-Amazon-S3
