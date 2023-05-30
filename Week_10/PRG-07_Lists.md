@@ -9,7 +9,9 @@ Lists are commonly used for storing and manipulating collections of data. They p
 
 ## Key-terms
 
-index: 
+**index**: an `index` is a numeric value that represents the position of an element within a sequence, such as a `string` or a `list`. The `index` starts from 0 for the _first element_, 1 for the _second element_, and so on. By specifying an `index`, you can access or manipulate a specific element within the sequence.
+
+For example, if you have a list my_list with elements [10, 20, 30], my_list[0] would access the first element (10), my_list[1] would access the second element (20), and so on. Indexing allows you to _retrieve, modify_, or _work_ with individual elements of a sequence based on their position within that sequence.
 
 ## Opdracht
 ### Gebruikte bronnen
