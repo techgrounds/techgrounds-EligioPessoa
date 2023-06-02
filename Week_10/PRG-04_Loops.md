@@ -14,7 +14,7 @@ https://www.w3schools.com/python/python_while_loops.asp
 
 https://www.w3schools.com/python/python_for_loops.asp
 
-
+https://discovery.cs.illinois.edu/learn/Simulation-and-Distributions/For-Loops-in-Python/
 
 ### Ervaren problemen
 
