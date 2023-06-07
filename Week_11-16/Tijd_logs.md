@@ -34,3 +34,20 @@ Bronnen goed uitgezocht en stappen teruggelopen als er iets foutging.
 - Dat we naast de tijdlogs ook de ontwerp en beslissingdocumentatie bij moeten houden
 
 ---
+
+# Log 07/06/2023
+
+
+## Dagverslag 
+Ik heb vandaag een preliminaire diagram gemaakt van de VPC, mijn beslissingsdocument geredacteerd en mijn uitvoeringsplan verder uitgebreid.
+
+## Obstakels
+Onduidelijkheid over de uitvoeringen van de management server
+
+## Oplossingen
+Na overleg met de team, zag ik dat ik het te ingewikkeld maakte.
+
+## Learnings
+VPC Peering kosten en voorwaarden, verdiept in benodigheden van management server, beveiliging en versleutelingservices.
+
+---
