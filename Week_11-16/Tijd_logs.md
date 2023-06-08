@@ -59,7 +59,7 @@ VPC Peering kosten en voorwaarden, verdiept in benodigheden van management serve
 Ik heb mijn diagram verbeterd en vervolgens aan mijn team getoond, en cdk code gebouwd voor 2 VPC's met 2 subnets
 
 ## Obstakels
-Code die op internet te vinden is voor AWS CDK Python is niet direct toepasbaar, 
+Code die op internet te vinden is voor AWS CDK Python is niet direct toepasbaar, ik kon geen werkende code invoeren.
 
 ## Oplossingen
 Diverse bronnen nagecheckt, samen met ChatGPT, tot ik aan werkende code kon komen.
