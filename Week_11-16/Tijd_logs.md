@@ -51,3 +51,20 @@ Na overleg met de team, zag ik dat ik het te ingewikkeld maakte.
 VPC Peering kosten en voorwaarden, verdiept in benodigheden van management server, beveiliging en versleutelingservices.
 
 ---
+
+# Log 08/06/2023
+
+
+## Dagverslag
+Ik heb mijn diagram verbeterd en vervolgens aan mijn team getoond, en cdk code gebouwd voor 2 VPC's met 2 subnets
+
+## Obstakels
+Code die op internet te vinden is voor AWS CDK Python is niet direct toepasbaar, 
+
+## Oplossingen
+Diverse bronnen nagecheckt, samen met ChatGPT, tot ik aan werkende code kon komen.
+
+## Learnings
+De basis syntax om VPCs en subnets met ingestelde ip-range in te stellen; ideën met de team uitgewisseld voor het bouwen van de diagram.
+
+---
