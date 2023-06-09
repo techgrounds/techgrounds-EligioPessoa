@@ -68,3 +68,20 @@ Diverse bronnen nagecheckt, samen met ChatGPT, tot ik aan werkende code kon kome
 De basis syntax om VPCs en subnets met ingestelde ip-range in te stellen; ideën met de team uitgewisseld voor het bouwen van de diagram.
 
 ---
+
+# Log 09/06/2023
+
+
+## Dagverslag 
+Vandaag had ik een sollicitatiegesprek bij inQdo, waardoor ik maar 2 uur bezig was met studie, en wat verder onderzoek heb gedaan op het veld van VPC, subnets en route tables.
+
+## Obstakels
+n.v.t.
+
+## Oplossingen
+n.v.t.
+
+## Learnings
+Hoe een configuratie bestand in kunt stellen en refereren; route table syntax en het associeren daarvan met subnets.
+
+---
