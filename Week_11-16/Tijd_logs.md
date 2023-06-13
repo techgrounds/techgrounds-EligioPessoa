@@ -102,3 +102,24 @@ Wat kleine stapjes gemaakt, aangepast waar het kon, foutmeldingen waren steeds a
 Werken met variabels in AWS CDK Python.
 
 ---
+
+# Log 13/06/2023
+
+
+## Dagverslag
+Vandaag heb ik beide vpcs met vpc peering gedeployed, een ec2 instance op elke vpc gedeployed, en een rds instance op de tweede netwerk. Ik ben ook achtergekomen hoe ik minder route tables kan maken.
+
+## Obstakels
+- Ik kon geen RDS creëren omdat het ook een subnet group moest hebben.
+- Ik kon nog steeds geen twee VPC's met een enkele route table per vpc, en ik had problemen met het creëren van meerdere internet gateways
+
+## Oplossingen
+- Onderzoek heeft getoond dat het een bekende issue van cdk dat er een route table per subnet werd gecreërd. Uiteindelijk heb ik een aparte configuratie sdk kunnen maken voor het aanmaken van elke individuele subnet, route table, en twee internet gateways.
+- Na het creëren van een subnetgroup lukte het mij om een rds instance aan te maken.
+
+## Learnings
+
+- Ik heb verdere inzicht gekregen op de verschillende soorten varianten in python, en hoe ze verschillen per use case.
+
+---
+
