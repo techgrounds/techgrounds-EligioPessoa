@@ -85,3 +85,20 @@ n.v.t.
 Hoe een configuratie bestand in kunt stellen en refereren; route table syntax en het associeren daarvan met subnets.
 
 ---
+
+# Log 12/06/2023
+
+
+## Dagverslag 
+Ik heb de grootste gedeelte van de dag pogingen gemaakt tot het creëren van 2 VPC's met 2 subnets en routetables. Daarna wat onderzoek gedaan over VPC Peering.
+
+## Obstakels
+Het lukt nog steeds niet om de subnets op één routetable per VPC te distribuëren.
+
+## Oplossingen
+Wat kleine stapjes gemaakt, aangepast waar het kon, foutmeldingen waren steeds anders, dus er is progressie. Geschakeld naar VPC Peering.
+
+## Learnings
+Werken met variabels in AWS CDK Python.
+
+---
