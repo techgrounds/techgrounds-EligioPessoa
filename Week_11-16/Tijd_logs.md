@@ -123,3 +123,20 @@ Vandaag heb ik beide vpcs met vpc peering gedeployed, een ec2 instance op elke v
 
 ---
 
+# Log 14/06/2023
+
+
+## Dagverslag
+Ik heb de ideën van verschillende pogingen tot deployen geïntegreerd in één ontwerp.
+
+## Obstakels
+- Achtergekomen dat RDS niet gedeployed kan worden in de vorm die ik oorspronkelijk had gepland.
+- Een api waar ik gebruik van maakte was deprecated, en ik wist niet hoe ik het moest vervangen.
+
+## Oplossingen
+- Ik heb besloten te schakelen naar het gebruik van Aurora, die volgens AWS Cost Explorer zelfs voordeliger wordt.
+- Na wat googlen, experimenteren en code observeren, heb ik kunnen vinden hoe ik precies de code moest aanpassen.
+## Learnings
+Beperkingen van RDS, beter werken met aws api's.
+
+---
