@@ -127,7 +127,7 @@ Vandaag heb ik beide vpcs met vpc peering gedeployed, een ec2 instance op elke v
 
 
 ## Dagverslag
-Ik heb de ideën van verschillende pogingen tot deployen geïntegreerd in één ontwerp.
+Ik heb de ideën van verschillende pogingen tot deployen geïntegreerd in één ontwerp, dat is, ec2's gedeployed in de code waar ik route tables goed ingericht had.
 
 ## Obstakels
 - Achtergekomen dat RDS niet gedeployed kan worden in de vorm die ik oorspronkelijk had gepland.
