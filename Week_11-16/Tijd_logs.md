@@ -140,3 +140,20 @@ Ik heb de ideën van verschillende pogingen tot deployen geïntegreerd in één 
 Beperkingen van RDS, beter werken met aws api's.
 
 ---
+# Log 15/06/2023
+
+
+## Dagverslag
+Vandaag heb ik een s3 bucket toegevoegd aan mijn ontwerp, en een security group ingesteld volgens best security practices 
+
+## Obstakels
+- Ik kwam achter dat het niet volgens best practices om ingress/egress rules toe te voegen aan een security group met cdk.
+- Ik kon een bucket aanmaken, maar wist de naam niet goed aan te passen
+## Oplossingen
+- Curt heeft ons laten zien hoe de S3 bucket aangepast kan worden
+- Ik heb de .connections object gebruikt om de security group in te stellen.
+
+## Learnings
+- Best practices Security Groups, naaminstellingen cdk.
+
+---
