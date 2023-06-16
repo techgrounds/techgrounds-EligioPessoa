@@ -157,3 +157,20 @@ Vandaag heb ik een s3 bucket toegevoegd aan mijn ontwerp, en een security group 
 - Best practices Security Groups, naaminstellingen cdk.
 
 ---
+# Log 16/06/2023
+
+
+## Dagverslag (1 zin)
+Ik heb mijn stack aangepast - wat comments toegevoegd, en security groups aangepast.
+
+## Obstakels
+Ik kon geen verbinding maken met mijn instance
+
+## Oplossingen
+Troubleshooting toonde dat het probleem lag aan een misgeconfigureerde security group. Ik zocht uit hoe ik die moest coderen, en daarna lukte het.
+
+## Learnings
+
+Mijn collega's en ik hebben wat ideën uitgewisseld over het maken van verschillende stacks en het toepassing daarvan.
+
+---
