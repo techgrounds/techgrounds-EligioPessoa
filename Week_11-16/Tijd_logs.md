@@ -174,3 +174,19 @@ Troubleshooting toonde dat het probleem lag aan een misgeconfigureerde security 
 Mijn collega's en ik hebben wat ideën uitgewisseld over het maken van verschillende stacks en het toepassing daarvan.
 
 ---
+# Log 19/06/2023
+
+
+## Dagverslag 
+Na het presenteren van mijn huidige vooruitgang, heb ik mijn security groups aangepast en onderzoek gedaan tot het toevoegen van private subnets en een NAT gateway.
+
+## Obstakels
+Het toevoegen van private subnets en NAT gateway schijnt niet compatibel te zijn met mijn huidige ontwerp.
+
+## Oplossingen
+Ik ben eenvoudigere vormen aan het uitzoeken voor dezelfde doeleinden die ik zover had.
+
+## Learnings
+Het configureren van uitzonderingen in security groups zonder ip's, cdk code voor NAT gateway.
+
+---
