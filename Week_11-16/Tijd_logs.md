@@ -190,3 +190,20 @@ Ik ben eenvoudigere vormen aan het uitzoeken voor dezelfde doeleinden die ik zov
 Het configureren van uitzonderingen in security groups zonder ip's, cdk code voor NAT gateway.
 
 ---
+# Log 20/06/2023
+
+
+## Dagverslag 
+Ik heb een elastic load balancer en auto scaling group toegepast aan mijn netwerk.
+
+## Obstakels
+De configuratie van de ELB shijnt niet compatibel te zijn met de ontwerp van mijn netwerk
+
+## Oplossingen
+Ik heb geschakel naar een simpelere versie van de netwerk ontwerp.
+
+## Learnings
+CDK opmaak van Elastic Load Balancer en Auto Scaling Group
+
+---
+
