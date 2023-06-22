@@ -207,3 +207,19 @@ CDK opmaak van Elastic Load Balancer en Auto Scaling Group
 
 ---
 
+# Log 21/06/2023
+
+
+## Dagverslag (1 zin)
+Ik heb aanpassingen gemaakt aan de Elastic Load Balancer en Auto-Scaling Group, en verder onderzoek gedaan naar AWS Backup en KMS
+
+## Obstakels
+Auto-Scaling Group schijnt alleen maar out te scalen, en niet in
+
+## Oplossingen
+Even geschakeld naar de laatste gedeelten van de CDK die nog gemaakt moeten worden.
+
+## Learnings
+CDK benodigheden van KMS en AWS Backup
+
+---
