@@ -223,3 +223,19 @@ Even geschakeld naar de laatste gedeelten van de CDK die nog gemaakt moeten word
 CDK benodigheden van KMS en AWS Backup
 
 ---
+# Log 22/06/2023
+
+
+## Dagverslag 
+Ik heb de basiscode van AWS Backup geïmplementeerd en de Auto-Scaling Group getest
+
+## Obstakels
+
+
+## Oplossingen
+
+
+## Learnings
+CDK toepassing van AWS Backup.
+
+---
