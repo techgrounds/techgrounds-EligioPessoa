@@ -239,3 +239,20 @@ Ik heb de basiscode van AWS Backup geïmplementeerd en de Auto-Scaling Group get
 CDK toepassing van AWS Backup.
 
 ---
+# Log 23/06/2023
+
+
+## Dagverslag 
+Ik ben vandaag begonnen met KMS toepassen in mijn ontwerp, en AWS Backup taken toegevoegd
+
+## Obstakels
+Toen ik encryptie toepastte op de ec2 instanties, werden ze niet gedeployed.
+
+## Oplossingen
+Ik zag dat het aan mijn zelf gecreërde KMS sleutel lag. Nadat ik het verwijderde, konden de instanties gecreërd worden met de sleutel van AWS zelf.
+
+## Learnings
+
+CDK toepassing van AWS KMS.
+
+---
