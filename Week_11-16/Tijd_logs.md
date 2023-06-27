@@ -256,3 +256,19 @@ Ik zag dat het aan mijn zelf gecreërde KMS sleutel lag. Nadat ik het verwijderd
 CDK toepassing van AWS KMS.
 
 ---
+# Log 26/06/2023
+
+
+## Dagverslag 
+Ik heb permissies toegepast om de AWS Backup jobs uit te kunnen voeren.
+
+## Obstakels
+De backup jobs bleven falen door gebrek aan juiste permissies
+
+## Oplossingen
+Ik heb de AWS documentatie gekeken om de permissies toe te kunnen passen.
+
+## Learnings
+Toepassing van permissies in CDK
+
+---
