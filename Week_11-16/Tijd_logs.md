@@ -272,3 +272,19 @@ Ik heb de AWS documentatie gekeken om de permissies toe te kunnen passen.
 Toepassing van permissies in CDK
 
 ---
+# Log 27/06/2023
+
+
+## Dagverslag
+Testen uitgevoerd, troubleshooting en aanpassingen op de backup opties.
+
+## Obstakels
+Ik wist niet hoe ik alleen 2 ec2 instances aan kon hebben samen met de load balancer/auto-scaling group.
+
+## Oplossingen
+Na wat tips gekregen van mijn collega's, heb ik de load balancer als web server ingesteld. Toch blijkt het dat ik dat los moet laten, omdat het het backup proces ingewikkelder maakt.
+
+## Learnings
+Auto-Scaling group, KMS en Backup opties
+
+---
