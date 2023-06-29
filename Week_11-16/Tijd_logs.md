@@ -288,3 +288,20 @@ Na wat tips gekregen van mijn collega's, heb ik de load balancer als web server 
 Auto-Scaling group, KMS en Backup opties
 
 ---
+# Log 28/06/2023
+
+
+## Dagverslag
+Fine-tuning uitgevoerd aan mijn huidige code.
+
+## Obstakels
+- Ik kon mijn RDS instance niet deployen als ik geen NAT Gateway had
+- Mijn S3 bucket kon niet gebackupt worden, al had ik alle permissions staan
+## Oplossingen
+- Het vervangen van low-level constructs naar high-level constructs op RDS lostte mijn probleem op
+- Uiteindelijk bleek het dat één van de permissions voor S3 niet op het goede veld was. Nadat ik dat ontdekte, kon ik de S3 backuppen.
+
+## Learnings
+Onderzoek gedaan naar het verschil tussen RDS automated backups en AWS Backup.
+
+---
