@@ -305,3 +305,21 @@ Fine-tuning uitgevoerd aan mijn huidige code.
 Onderzoek gedaan naar het verschil tussen RDS automated backups en AWS Backup.
 
 ---
+
+# Log 29/06/2023
+
+
+## Dagverslag 
+Ik heb wat problemen opgelost, testen uitgevoerd en onderzoek naar de NACL gedaan.
+
+## Obstakels
+- Ik kon de geëncrypteerde auto scaling group niet deployen.
+- Ik kon geen verbinding maken tussen de management server en web server
+
+## Oplossingen
+- Ik heb de kms permissions aangepast, om de autoscaling group te laten deployen
+- Ik heb de publieke ip van de management server gekoppeld aan de security group van de web server; daarna lukte het om verbinding te maken
+
+## Learnings
+
+- Het belang van permissions; effecten van NACL.
