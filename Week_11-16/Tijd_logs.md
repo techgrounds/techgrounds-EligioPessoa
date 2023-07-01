@@ -174,3 +174,170 @@ Troubleshooting toonde dat het probleem lag aan een misgeconfigureerde security 
 Mijn collega's en ik hebben wat ideën uitgewisseld over het maken van verschillende stacks en het toepassing daarvan.
 
 ---
+# Log 19/06/2023
+
+
+## Dagverslag 
+Na het presenteren van mijn huidige vooruitgang, heb ik mijn security groups aangepast en onderzoek gedaan tot het toevoegen van private subnets en een NAT gateway.
+
+## Obstakels
+Het toevoegen van private subnets en NAT gateway schijnt niet compatibel te zijn met mijn huidige ontwerp.
+
+## Oplossingen
+Ik ben eenvoudigere vormen aan het uitzoeken voor dezelfde doeleinden die ik zover had.
+
+## Learnings
+Het configureren van uitzonderingen in security groups zonder ip's, cdk code voor NAT gateway.
+
+---
+# Log 20/06/2023
+
+
+## Dagverslag 
+Ik heb een elastic load balancer en auto scaling group toegepast aan mijn netwerk.
+
+## Obstakels
+De configuratie van de ELB shijnt niet compatibel te zijn met de ontwerp van mijn netwerk
+
+## Oplossingen
+Ik heb geschakel naar een simpelere versie van de netwerk ontwerp.
+
+## Learnings
+CDK opmaak van Elastic Load Balancer en Auto Scaling Group
+
+---
+
+# Log 21/06/2023
+
+
+## Dagverslag (1 zin)
+Ik heb aanpassingen gemaakt aan de Elastic Load Balancer en Auto-Scaling Group, en verder onderzoek gedaan naar AWS Backup en KMS
+
+## Obstakels
+Auto-Scaling Group schijnt alleen maar out te scalen, en niet in
+
+## Oplossingen
+Even geschakeld naar de laatste gedeelten van de CDK die nog gemaakt moeten worden.
+
+## Learnings
+CDK benodigheden van KMS en AWS Backup
+
+---
+# Log 22/06/2023
+
+
+## Dagverslag 
+Ik heb de basiscode van AWS Backup geïmplementeerd en de Auto-Scaling Group getest
+
+## Obstakels
+
+
+## Oplossingen
+
+
+## Learnings
+CDK toepassing van AWS Backup.
+
+---
+# Log 23/06/2023
+
+
+## Dagverslag 
+Ik ben vandaag begonnen met KMS toepassen in mijn ontwerp, en AWS Backup taken toegevoegd
+
+## Obstakels
+Toen ik encryptie toepastte op de ec2 instanties, werden ze niet gedeployed.
+
+## Oplossingen
+Ik zag dat het aan mijn zelf gecreërde KMS sleutel lag. Nadat ik het verwijderde, konden de instanties gecreërd worden met de sleutel van AWS zelf.
+
+## Learnings
+
+CDK toepassing van AWS KMS.
+
+---
+# Log 26/06/2023
+
+
+## Dagverslag 
+Ik heb permissies toegepast om de AWS Backup jobs uit te kunnen voeren.
+
+## Obstakels
+De backup jobs bleven falen door gebrek aan juiste permissies
+
+## Oplossingen
+Ik heb de AWS documentatie gekeken om de permissies toe te kunnen passen.
+
+## Learnings
+Toepassing van permissies in CDK
+
+---
+# Log 27/06/2023
+
+
+## Dagverslag
+Testen uitgevoerd, troubleshooting en aanpassingen op de backup opties.
+
+## Obstakels
+Ik wist niet hoe ik alleen 2 ec2 instances aan kon hebben samen met de load balancer/auto-scaling group.
+
+## Oplossingen
+Na wat tips gekregen van mijn collega's, heb ik de load balancer als web server ingesteld. Toch blijkt het dat ik dat los moet laten, omdat het het backup proces ingewikkelder maakt.
+
+## Learnings
+Auto-Scaling group, KMS en Backup opties
+
+---
+# Log 28/06/2023
+
+
+## Dagverslag
+Fine-tuning uitgevoerd aan mijn huidige code.
+
+## Obstakels
+- Ik kon mijn RDS instance niet deployen als ik geen NAT Gateway had
+- Mijn S3 bucket kon niet gebackupt worden, al had ik alle permissions staan
+## Oplossingen
+- Het vervangen van low-level constructs naar high-level constructs op RDS lostte mijn probleem op
+- Uiteindelijk bleek het dat één van de permissions voor S3 niet op het goede veld was. Nadat ik dat ontdekte, kon ik de S3 backuppen.
+
+## Learnings
+Onderzoek gedaan naar het verschil tussen RDS automated backups en AWS Backup.
+
+---
+
+# Log 29/06/2023
+
+
+## Dagverslag 
+Ik heb wat problemen opgelost, testen uitgevoerd en onderzoek naar de NACL gedaan.
+
+## Obstakels
+- Ik kon de geëncrypteerde auto scaling group niet deployen.
+- Ik kon geen verbinding maken tussen de management server en web server
+
+## Oplossingen
+- Ik heb de kms permissions aangepast, om de autoscaling group te laten deployen
+- Ik heb de publieke ip van de management server gekoppeld aan de security group van de web server; daarna lukte het om verbinding te maken
+
+## Learnings
+
+- Het belang van permissions; effecten van NACL.
+
+# Log [30/06/2023]
+
+
+## Dagverslag
+Ik heb testen uitgevoerd, problemen troublegeshoot
+
+## Obstakels
+- Mijn autoscaling group schaal alleen uit, niet in.
+- Ik kan de NACL nog niet configureren om de netwerk te kunnen gebruiken (health checks voor ASG falen; kan niet toegang krijgen tot ec2 instances, al zet ik mijn eigen ip nummer in de toegestane ip nummers)
+
+## Oplossingen
+- Ik heb in verschillende condities mijn code gedeployed, om te testen of een bepaalde conditie het inschalen tegenhoudt, maar zonder succes.
+- Ik heb geprobeerd om ephemeral port nummers toe te laten in de NACL, maar geen succes.
+## Learnings
+
+Hoe ephemeral port nummers toegelaten moeten worden om bepaalde services te laten werken.
+---
