@@ -323,6 +323,7 @@ Ik heb wat problemen opgelost, testen uitgevoerd en onderzoek naar de NACL gedaa
 ## Learnings
 
 - Het belang van permissions; effecten van NACL.
+<<<<<<< HEAD
 
 # Log [30/06/2023]
 
@@ -341,3 +342,5 @@ Ik heb testen uitgevoerd, problemen troublegeshoot
 
 Hoe ephemeral port nummers toegelaten moeten worden om bepaalde services te laten werken.
 ---
+=======
+>>>>>>> 99eec9a624937fa72e39aae3bf3ede8432cb43a9
