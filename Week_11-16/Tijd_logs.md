@@ -340,7 +340,7 @@ Ik heb testen uitgevoerd, problemen troublegeshoot
 - Ik heb geprobeerd om ephemeral port nummers toe te laten in de NACL, maar geen succes.
 ## Learnings
 
-Hoe ephemeral port nummers toegelaten moeten worden om bepaalde services te laten werken.
+- Hoe ephemeral port nummers toegelaten moeten worden om bepaalde services te laten werken.
 ---
 =======
->>>>>>> 99eec9a624937fa72e39aae3bf3ede8432cb43a9
+
