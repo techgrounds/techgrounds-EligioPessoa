@@ -1,19 +1,12 @@
-from aws_cdk import (
-    NestedStack, Stack, 
-    aws_ec2 as ec2, 
-    aws_rds as rds, 
-    aws_s3 as s3, 
-    aws_elasticloadbalancingv2 as elbv2, 
-    aws_autoscaling as autoscaling, 
-    aws_events as events, 
-    aws_events_targets as targets, 
-    aws_backup as backup, 
-    aws_iam as iam, 
-    aws_kms as kms, 
-    aws_autoscaling_common as common
-)
+from aws_cdk import NestedStack, Stack, aws_ec2 as ec2, aws_rds as rds, aws_s3 as s3
 from constructs import Construct
 import aws_cdk as cdk
+from aws_cdk import aws_elasticloadbalancingv2 as elbv2, aws_autoscaling as autoscaling
+from aws_cdk import aws_events as events, aws_events_targets as targets
+from aws_cdk import aws_backup as backup
+from aws_cdk import aws_iam as iam
+from aws_cdk import aws_kms as kms
+from aws_cdk import aws_autoscaling_common as common
 
 
 
@@ -29,7 +22,7 @@ class Pro01CdkStack(Stack):
         self.setup_ec2()
         self.setup_s3_bucket()
         self.setup_load_balancer()
-        #self.setup_db()
+        self.setup_db()
         self.setup_backup()
 
     def setup_vpc(self):    
@@ -663,7 +656,7 @@ class Pro01CdkStack(Stack):
         )'''
 
         
-        '''
+        
         # High-level constructs code
         subnet_group = rds.SubnetGroup(
             self,
@@ -706,27 +699,11 @@ class Pro01CdkStack(Stack):
             backup_retention=cdk.Duration.days(7),
             removal_policy=cdk.RemovalPolicy.DESTROY,
         )
-        '''
+        
                 # Peering Stack
     def setup_peering(self):
 
         
-        
-        
-        # Create a new VPC peering connection between prod and mgmt
-        #self.vpc_peering_connection = ec2.CfnVPCPeeringConnection(
-        #    self,
-        #    "vpc_peering_connection",
-        #    vpc_id=self.prod_vpc.vpc_id,
-        #    peer_vpc_id=self.mgmt_vpc.vpc_id,
-        #    peer_region=self.mgmt_vpc.region,
-        #    peer_owner_id=self.mgmt_vpc.account,
-        #    auto_accept=True,
-        #    #peer_options={
-        #    #    "allow_classic_link_to_remote_vpc": True,
-        #    #    "allow_classic_link_to_remote_vpc": True,
-        #    #},
-        #)
         self.peering_stack = NetworkPeeringStack(
             self,
             "NetworkPeeringStack",
@@ -746,10 +723,7 @@ class NetworkPeeringStack(NestedStack):
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        
 
-
-        
 
         # Peering connection
         self.vpc1tovpc2 = ec2.CfnVPCPeeringConnection(
@@ -794,4 +768,3 @@ class NetworkPeeringStack(NestedStack):
             vpc_peering_connection_id=self.vpc1tovpc2.ref,
         )
 
-        
