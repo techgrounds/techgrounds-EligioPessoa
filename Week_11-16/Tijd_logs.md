@@ -323,7 +323,7 @@ Ik heb wat problemen opgelost, testen uitgevoerd en onderzoek naar de NACL gedaa
 ## Learnings
 
 - Het belang van permissions; effecten van NACL.
-<<<<<<< HEAD
+
 
 # Log [30/06/2023]
 
@@ -342,5 +342,23 @@ Ik heb testen uitgevoerd, problemen troublegeshoot
 
 - Hoe ephemeral port nummers toegelaten moeten worden om bepaalde services te laten werken.
 ---
-=======
 
+
+# Log [03/07/2023]
+
+
+## Dagverslag
+Ik heb de versie 1.1 van het project doorgelezen, plannen gemaakt voor de nieuwe en aangepaste eisen, en wat code aangepast.
+
+## Obstakels
+- Ik kon mijn autoscaling group nog steeds niet goed laten in en uitschalen
+- Toen ik `assign_public_ip=False` probeerde in te stellen, kreeg ik een foutmelding omdat het niet toe te passen was met de launchtemplate die ik had ingesteld
+## Oplossingen
+- Ik heb expliciete scale policies ingesteld voor het in en uitschalen volgens custom metrics i.p.v. automatische scale policies, en nu schalen de instances in en uit zoals verwacht.
+- Mijn groep heeft mij laten zien dat het encrypteren (de reden waarom ik templates gebruiktte) ook kan in de gewone autoscaling construct.
+
+## Learnings
+
+Het gebruik van een load balancer als proxy en het herrouten van net verkeer naar https ermee.
+
+---
