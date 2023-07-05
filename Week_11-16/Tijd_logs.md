@@ -362,3 +362,23 @@ Ik heb de versie 1.1 van het project doorgelezen, plannen gemaakt voor de nieuwe
 Het gebruik van een load balancer als proxy en het herrouten van net verkeer naar https ermee.
 
 ---
+
+# Log 04/07/2023
+
+
+## Dagverslag 
+
+Ik heb testen en troubleshooting uitgevoerd voor de aanpassingen voor v1.1
+
+## Obstakels
+- Als ik geen publieke ip zet voor de instances in de auto-scaling group, falen de healthchecks
+- Zover kan ik mijn zelf getekende ssl certificaten niet importeren
+
+## Oplossingen
+- Testen uitgevoerd met userdata in de autoscaling instances. Nog geen oplossing gevonden
+
+## Learnings
+
+Bewust geworden van aanpassende voorwaarden tijdens het gebrek aan een publieke ip
+
+---
