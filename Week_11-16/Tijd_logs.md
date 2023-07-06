@@ -382,3 +382,25 @@ Ik heb testen en troubleshooting uitgevoerd voor de aanpassingen voor v1.1
 Bewust geworden van aanpassende voorwaarden tijdens het gebrek aan een publieke ip
 
 ---
+
+# Log 05/07/2023
+
+
+## Dagverslag 
+Ik heb mijn auto-scaling groep aangepast zonder publieke ip, en onderzoek gedaan tot het opzetten van een https listener op mijn load balancer.
+
+## Obstakels
+
+- Mijn autoscaler kon op het begin van de dag nog niet runnen zonder publieke ip.
+- Ik gebruik OpenSSL om een certificaat en private key te genereren, maar aws accepteert mijn private key niet.
+- Mijn load balancer accepteert mijn certificaat niet
+
+## Oplossingen
+
+- Ik heb mijn auto-scaling group aangepast om vanuit een pre-gebouwde AMI te starten, en nu werkt het zonder publieke ip.
+- Nadat ik de instructies van AWS documentatie volgde, heb ik een certificaat kunnen creëren, tekenen en uploaden, die mijn load balancer accepteert.
+
+## Learnings
+
+- Benodigheden voor configureren https op de load balancer.
+---
