@@ -404,3 +404,26 @@ Ik heb mijn auto-scaling groep aangepast zonder publieke ip, en onderzoek gedaan
 
 - Benodigheden voor configureren https op de load balancer.
 ---
+
+# Log 06/07/2023
+
+
+## Dagverslag 
+
+- Ik heb mijn load balancer volledig geconfigureerd om als proxy te functioneren, en wat onderzoek gedaan naar het verbinden met een privé ip.
+
+## Obstakels
+
+- Ik zag dat her geen verkeer werd herricht van HTTP naar HTTPS
+- Ik kan geen verbinding maken tussen mijn management server en web server, als deze een privé ip adres heeft.
+
+## Oplossingen
+
+- Nadat ik mijn listeners aanpaste, kon ik mijn mijn load balancer alle verkeer van HTTP laten herrouten naar HTTPS
+- Door handmatig alle subnets te laten richten naar de route table met verbinding naar de peering connectie, heb ik verbinding kunnen maken tussen mijn twee servers. Ik moet het nog in de CDK verrichten, maar nu weet ik waar het over gaat.
+
+## Learnings
+
+- Benodigheden voor het volledig verbinden van VPC Peering.
+
+---
