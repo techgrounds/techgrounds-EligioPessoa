@@ -427,3 +427,23 @@ Ik heb mijn auto-scaling groep aangepast zonder publieke ip, en onderzoek gedaan
 - Benodigheden voor het volledig verbinden van VPC Peering.
 
 ---
+
+# Log 07/07/2023
+
+
+## Dagverslag 
+Ik heb vandaag de route table associaties van mijn peering connection aangepast
+
+## Obstakels
+Ik kon de code niet goed krijgen om alle route table van alle subnets (public en private) te verbinden met de peering connection
+
+## Oplossingen
+
+Ik merkte welkde codes verschillende resultaten leverden, en wist ze te combineren
+
+## Learnings
+
+Praktische verwerkingen van cdk code voor VPC peering
+
+
+---
