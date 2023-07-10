@@ -18,8 +18,6 @@ class Pro01CdkStack(Stack):
 
         self.setup_vpc()
         self.setup_peering()
-        self.setup_kms()
-        #self.setup_iam()
         self.setup_security_group()
         self.setup_ec2()
         self.setup_s3_bucket()
@@ -61,43 +59,7 @@ class Pro01CdkStack(Stack):
             ],
             availability_zones=["eu-central-1a", "eu-central-1b"],            
         )
-        '''
-        # Create NACL for prod_vpc
-        prod_vpc_nacl = ec2.NetworkAcl(self, "ProdVpcNACL", vpc=self.prod_vpc)
 
-        prod_vpc_nacl.add_entry("ProdVpcInboundRule1", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=120, traffic=ec2.AclTraffic.tcp_port_range(80, 80), direction=ec2.TrafficDirection.INGRESS)
-        prod_vpc_nacl.add_entry("ProdVpcInboundRule2", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=110, traffic=ec2.AclTraffic.tcp_port_range(1024, 65535), direction=ec2.TrafficDirection.INGRESS)
-        prod_vpc_nacl.add_entry("ProdVpcOutboundRule1", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=120, traffic=ec2.AclTraffic.tcp_port_range(80, 80), direction=ec2.TrafficDirection.EGRESS)
-        prod_vpc_nacl.add_entry("ProdVpcOutboundRule2", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=110, traffic=ec2.AclTraffic.tcp_port_range(1024, 65535), direction=ec2.TrafficDirection.EGRESS)
-
-
-        # Add rules to allow inbound and outbound traffic from select IP addresses
-        prod_vpc_nacl.add_entry("ProdVpcInboundRule3", cidr=ec2.AclCidr.ipv4("82.75.30.6/32"), rule_number=200, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.INGRESS)
-        prod_vpc_nacl.add_entry("ProdVpcOutboundRule3", cidr=ec2.AclCidr.ipv4("82.75.30.6/32"), rule_number=200, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.EGRESS)
-
-        # Add rules to allow inbound and outbound traffic between prod_vpc and mgmt_vpc
-        prod_vpc_nacl.add_entry("ProdVpcInboundRule4", cidr=ec2.AclCidr.ipv4(self.mgmt_vpc.vpc_cidr_block), rule_number=199, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.INGRESS)
-        prod_vpc_nacl.add_entry("ProdVpcOutboundRule4", cidr=ec2.AclCidr.ipv4(self.mgmt_vpc.vpc_cidr_block), rule_number=199, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.EGRESS)
-
-        # Associate NACL with subnets in prod_vpc
-        for subnet in self.prod_vpc.public_subnets + self.prod_vpc.private_subnets:
-            ec2.SubnetNetworkAclAssociation(self, f"ProdVpcNACLAssociation{subnet.node.id}", network_acl=prod_vpc_nacl, subnet=subnet)
-        
-        # Create NACL for mgmt_vpc
-        mgmt_vpc_nacl = ec2.NetworkAcl(self, "MgmtVpcNACL", vpc=self.mgmt_vpc)
-
-        # Add rules to allow inbound and outbound traffic from select IP addresses
-        mgmt_vpc_nacl.add_entry("MgmtVpcInboundRule1", cidr=ec2.AclCidr.ipv4("82.75.30.6/32"), rule_number=200, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.INGRESS)
-        mgmt_vpc_nacl.add_entry("MgmtVpcOutboundRule1", cidr=ec2.AclCidr.ipv4("82.75.30.6/32"), rule_number=200, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.EGRESS)
-
-        # Add rules to allow inbound and outbound traffic between mgmt_vpc and prod_vpc
-        mgmt_vpc_nacl.add_entry("MgmtVpcInboundRule2", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=199, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.INGRESS)
-        mgmt_vpc_nacl.add_entry("MgmtVpcOutboundRule2", cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block), rule_number=199, traffic=ec2.AclTraffic.all_traffic(), direction=ec2.TrafficDirection.EGRESS)
-
-        # Associate NACL with subnets in mgmt_vpc
-        for subnet in self.mgmt_vpc.public_subnets:
-            ec2.SubnetNetworkAclAssociation(self, f"MgmtVpcNACLAssociation{subnet.node.id}", network_acl=mgmt_vpc_nacl, subnet=subnet)
-        '''
         
         
         # Fetching references to the subnets where we intend to deploy our servers
@@ -105,53 +67,6 @@ class Pro01CdkStack(Stack):
         self.subnet_mgmtserver = self.mgmt_vpc.public_subnets[0]
        
 
-    def setup_kms(self):
-        # Create KMS Key for the management server
-        '''self.kms_key = kms.Key(self, "KmsKey", removal_policy=cdk.RemovalPolicy.DESTROY)
-        
-        # Create an alias for the KMS key
-        self.my_alias = kms.Alias(
-            self,
-            "MyAlias",
-            alias_name="alias/PRO01CDK",
-            target_key=self.kms_key
-        )
-        self.kms_key.add_to_resource_policy(
-            iam.PolicyStatement(
-                sid="Allow service-linked role use of the customer managed key",
-                effect=iam.Effect.ALLOW,
-                principals=[iam.ArnPrincipal(f"arn:aws:iam::{cdk.Aws.ACCOUNT_ID}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling")],
-                actions=[
-                    "kms:Encrypt",
-                    "kms:Decrypt",
-                    "kms:ReEncrypt*",
-                    "kms:GenerateDataKey*",
-                    "kms:DescribeKey"
-                ],
-                resources=["*"]
-            )
-        )
-        self.kms_key.add_to_resource_policy(
-            iam.PolicyStatement(
-                sid="Allow attachment of persistent resources",
-                effect=iam.Effect.ALLOW,
-                principals=[iam.ArnPrincipal(f"arn:aws:iam::{cdk.Aws.ACCOUNT_ID}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling")],
-                actions=[                    
-                    "kms:ListGrants",
-                    "kms:CreateGrant",
-                    "kms:RevokeGrant",
-                    "kms:ListRetirableGrants",
-                    "kms:RetireGrant"
-                ],
-                resources=["*"],
-                conditions={
-                    "Bool": {
-                        "kms:GrantIsForAWSResource": True
-                    }
-                }
-            )
-        )'''
-        
         
                 
     def setup_s3_bucket(self):
@@ -193,45 +108,9 @@ class Pro01CdkStack(Stack):
         
     # Create EC2 instances
     def setup_ec2(self):
-        # Define AMI (Amazon Machine Image) for the EC2 instances
-        '''self.amzn_linux_ami = ec2.AmazonLinuxImage(
-            generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
-        )'''
+
         self.amzn_linux_ami = ec2.MachineImage.latest_amazon_linux2()
-        ''' 
-        # Create Web server 
-        self.web_server = ec2.Instance(self, "Web_Server",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=self.amzn_linux_ami,
-            key_name="exp3",
-            vpc=self.prod_vpc,
-            vpc_subnets=ec2.SubnetSelection(subnets=[self.subnet_webserver]),
-            security_group=self.security_group_prod,
-            user_data=ec2.UserData.custom('''#!/bin/bash
-                # Install Apache Web Server and PHP 
-        '''yum install -y httpd mysql php
-                # Download Lab files
-                wget https://aws-tc-largeobjects.s3.amazonaws.com/CUR-TF-100-RESTRT-1/80-lab-vpc-web-server/lab-app.zip
-                unzip lab-app.zip -d /var/www/html/
-                # Turn on web server
-                chkconfig httpd on
-                service httpd start''' '''),
-            block_devices=[ec2.BlockDevice(
-                device_name="/dev/xvda",
-                volume=ec2.BlockDeviceVolume.ebs(
-                    volume_size=8,
-                    volume_type=ec2.EbsDeviceVolumeType.GP2,
-                    encrypted=True
-                    #kms_key=self.kms_key
-                )
-            )]
-        )
-
-        self.web_server.node.add_metadata("Name", "Web_Server")'''
-        
-
-        # Allocate an Elastic IP for the Web server
-#        web_server_eip = ec2.CfnEIP(self, "WebServerEIP", instance_id=self.web_server.instance_id)
+       
         
         # Create Management server
         self.mgmt_server = ec2.Instance(self, "Management_Server",
@@ -250,23 +129,7 @@ class Pro01CdkStack(Stack):
             )]
         )
         
-        '''
-        self.mgmt_server = ec2.BastionHostLinux(self, "BastionHost",
-            vpc=self.mgmt_vpc,
-            subnet_selection=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
-            instance_name="BastionHost",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=self.amzn_linux_ami,
-            security_group=self.security_group_mgmt,
-            block_devices=[ec2.BlockDevice(
-                device_name="/dev/xvda",
-                volume=ec2.BlockDeviceVolume.ebs(
-                    volume_size=8,
-                    volume_type=ec2.EbsDeviceVolumeType.GP2,
-                    encrypted=True,
-                )
-            )]
-        )'''
+        
 
         self.mgmt_server.node.add_metadata("Name", "Management_Server")
 
@@ -274,7 +137,7 @@ class Pro01CdkStack(Stack):
 
         # Allow SSH and RDP access from the management server to the production server
         # Allow inbound RDP traffic from the mgmt_server instance
-        '''self.security_group_prod.add_ingress_rule(
+        self.security_group_prod.add_ingress_rule(
             peer=ec2.Peer.ipv4(f"{self.mgmt_server.instance_public_ip}/32"),
             connection=ec2.Port.tcp(3389),
             description="Allow inbound RDP traffic from mgmt_server"
@@ -286,7 +149,7 @@ class Pro01CdkStack(Stack):
             peer=ec2.Peer.ipv4(f"{self.mgmt_server.instance_public_ip}/32"),
             connection=ec2.Port.tcp(22),
             description="Allow inbound SSH traffic from mgmt_server"
-        )'''
+        )
 
         # Allow SSH and RDP access from the management server to the production server
         self.security_group_prod.connections.allow_from(
@@ -410,35 +273,7 @@ class Pro01CdkStack(Stack):
             path="/",
             timeout=cdk.Duration.seconds(5)
         )
-        ''' 
-        with open('certificate.pem', 'r') as file:
-            certificate_body = file.read()
-
-        with open('privatekey.pem', 'r') as file:
-            private_key = file.read()
-
-        certificate = acm.Certificate.from_certificate_arn(
-            self,
-            "Certificate",
-            certificate_arn=acm.Certificate.from_certificate_pem(
-                self,
-                "ImportedCertificate",
-                certificate_body=certificate_body,
-                private_key=private_key
-            ).certificate_arn
-        )'''
-        '''
-        # Create an AutoScaling group and add the web server as a target
-        listener.add_targets(
-            "WebServerTarget",
-            targets=[self.asg_web_server],
-            port=80,
-            health_check=elbv2.HealthCheck(
-                interval=cdk.Duration.seconds(60),
-                path="/",  # Path for the load balancer to check (e.g., the root path of your website)
-                timeout=cdk.Duration.seconds(5)  # The amount of time to wait when receiving a response from the health check
-            ),
-        )'''
+        
         
         
         # Create a custom metric for CPU utilization
@@ -711,28 +546,9 @@ class Pro01CdkStack(Stack):
     def setup_db(self):
         
 
-        ''' # Low-level constructs code
-                
-
-        db_security_group = ec2.SecurityGroup(
-            self, 
-            "DBSecurityGroup",
-            vpc=self.prod_vpc,
-            description="Allow connections to database",
-            allow_all_outbound=True
-        )
-
-        # Allow inbound traffic on default mysql port
         
-        self.security_group_prod.connections.allow_from(
-            self.security_group_prod, 
-            ec2.Port.tcp(3306), 
-        )'''
 
-        
-        
-        # High-level constructs code
-        '''subnet_group = rds.SubnetGroup(
+        subnet_group = rds.SubnetGroup(
             self,
             "myDBSubnetGroup",
             description="Subnets available for the RDS DB Instance",
@@ -773,7 +589,7 @@ class Pro01CdkStack(Stack):
             backup_retention=cdk.Duration.days(7),
             multi_az=True,
             removal_policy=cdk.RemovalPolicy.DESTROY,
-        )'''
+        )
         
                 # Peering Stack
     def setup_peering(self):
@@ -807,45 +623,9 @@ class NetworkPeeringStack(NestedStack):
             vpc_id=vpc_one.vpc_id,
             peer_vpc_id=vpc_two.vpc_id,
         )
-        '''
-        # Check status of VPC peering connection
-        cr.AwsCustomResource(
-            self,
-            "CheckVpcPeeringConnectionStatus",
-            policy=cr.AwsCustomResourcePolicy.from_sdk_calls(resources=cr.AwsCustomResourcePolicy.ANY_RESOURCE),
-            on_create=cr.AwsSdkCall(
-                service="EC2",
-                action="describeVpcPeeringConnections",
-                parameters={"VpcPeeringConnectionIds": [self.vpc1tovpc2.ref]},
-                physical_resource_id=cr.PhysicalResourceId.of("CheckVpcPeeringConnectionStatus"),
-            ),
-            on_update=cr.AwsSdkCall(
-                service="EC2",
-                action="describeVpcPeeringConnections",
-                parameters={"VpcPeeringConnectionIds": [self.vpc1tovpc2.ref]},
-                physical_resource_id=cr.PhysicalResourceId.of("CheckVpcPeeringConnectionStatus"),
-            ),
-        )
-        '''
-        '''
-        ec2.CfnRoute(
-            self,
-            "RouteFromVPC1toVPC2",
-            destination_cidr_block=vpc_two.vpc_cidr_block,
-            route_table_id=vpc_one.public_subnets[0].route_table.route_table_id,
-            vpc_peering_connection_id=self.vpc1tovpc2.ref,
-        )
+        
 
-        ec2.CfnRoute(
-            self,
-            "RouteFromVPC2toVPC1",
-            destination_cidr_block=vpc_one.vpc_cidr_block,
-            route_table_id=vpc_two.public_subnets[0].route_table.route_table_id,
-            vpc_peering_connection_id=self.vpc1tovpc2.ref,
-        )
-        '''
-
-        # Add routes to all subnets in VPC one
+        # Add routes to all private subnets in VPC one
         for subnet in vpc_one.select_subnets().subnets:
             ec2.CfnRoute(
                 self,
@@ -865,25 +645,6 @@ class NetworkPeeringStack(NestedStack):
                 vpc_peering_connection_id=self.vpc1tovpc2.ref,
             )
         
-        '''# Add routes to all private subnets in VPC one
-        for subnet in vpc_one.private_subnets:
-            ec2.CfnRoute(
-                self,
-                f"RouteFromVPC1toVPC2-{subnet.node.id}",
-                destination_cidr_block=vpc_two.vpc_cidr_block,
-                route_table_id=subnet.route_table.route_table_id,
-                vpc_peering_connection_id=self.vpc1tovpc2.ref,
-            )'''
-        
-        # Add routes to all public subnets in VPC two
-        '''for subnet in vpc_two.public_subnets:
-            ec2.CfnRoute(
-                self,
-                f"RouteFromVPC2toVPC1-{subnet.node.id}",
-                destination_cidr_block=vpc_one.vpc_cidr_block,
-                route_table_id=subnet.route_table.route_table_id,
-                vpc_peering_connection_id=self.vpc1tovpc2.ref,
-            )
 
             # Add routes to all subnets in VPC two
         for subnet in vpc_two.select_subnets().subnets:
@@ -893,44 +654,4 @@ class NetworkPeeringStack(NestedStack):
                 destination_cidr_block=vpc_one.vpc_cidr_block,
                 route_table_id=subnet.route_table.route_table_id,
                 vpc_peering_connection_id=self.vpc1tovpc2.ref,
-            )'''
-
-        
-        '''self.vpc1tovpc2 = ec2.VpcPeeringConnection(
-            self,
-            "vpc1tovpc2",
-            vpc=vpc_one,
-            peer_vpc=vpc_two,
-        )'''
-
-        '''# Add routes to all subnets in VPC one
-        for subnet in vpc_one.select_subnets().subnets:
-            subnet.add_route(
-                f"RouteFromVPC1toVPC2-{subnet.node.id}",
-                destination_cidr_block="10.20.20.0/24",
-                router_type=ec2.RouterType.VPC_PEERING_CONNECTION,
-                router_id=self.vpc1tovpc2.ref,
-            )'''
-
-        '''route_id = 0
-        for vpc_subnet in vpc_one.public_subnets:
-            route_id += 1
-
-            ec2.CfnRoute(
-                self,
-                f"PeeringRouteNumber{route_id}",
-                destination_cidr_block=vpc_two.vpc_cidr_block,
-                route_table_id=vpc_subnet.route_table.route_table_id,
-                vpc_peering_connection_id=self.vpc1tovpc2.ref,
-            )'''
-
-        # Add routes to all subnets in VPC two
-        for subnet in vpc_two.select_subnets().subnets:
-            subnet.add_route(
-                f"RouteFromVPC2toVPC1-{subnet.node.id}",
-                destination_cidr_block="10.10.10.0/24",
-                router_type=ec2.RouterType.VPC_PEERING_CONNECTION,
-                router_id=self.vpc1tovpc2.ref,
             )
-
-

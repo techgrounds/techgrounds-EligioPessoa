@@ -447,3 +447,20 @@ Praktische verwerkingen van cdk code voor VPC peering
 
 
 ---
+# Log 10/07/2023
+
+
+## Dagverslag 
+Ik heb vandaag onderzoek gedaan naar het toepassen van NACL regels.
+
+## Obstakels
+Ik kan niet verbnding maken met mijn EC2 instance via EC2 Instance Connect nadat ik NACL en SG regels heb toegepast om alleen mijn ip toegang te geven
+
+## Oplossingen
+Met onderzoek heb ik ontdekt dat ik het ip van de AWS services zelf is waar ik ook een uitzondering voor moet maken. Ik moet nog beslissen of ik dat zal toepassen
+
+## Learnings
+
+Bewerkingen van NACL en SG.
+
+---
