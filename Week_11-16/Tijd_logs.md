@@ -464,3 +464,19 @@ Met onderzoek heb ik ontdekt dat ik het ip van de AWS services zelf is waar ik o
 Bewerkingen van NACL en SG.
 
 ---
+# Log 11/07/2023
+
+
+## Dagverslag 
+NACL en SG regels toegepast, en onderzoek gedaan naar postdeployment scripts en ec2-rds verbinding
+
+## Obstakels
+Het is mij zover niet mogelijk om SSH verbinding vanuit Windows server te maken, omdat mijn .pem sleutel wordt geweigerd
+
+## Oplossingen
+Mijn collega's hebben mij geïnformeerd over het mogelijkheid om directe verbinding met SSH uit te voeren door middel van een bastion host, maar ik moet de details nog onderzoeken.
+
+## Learnings
+Methodes om postdeployment scripts uit te voeren.
+
+---
