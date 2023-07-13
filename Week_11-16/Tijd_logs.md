@@ -480,3 +480,19 @@ Mijn collega's hebben mij geïnformeerd over het mogelijkheid om directe verbind
 Methodes om postdeployment scripts uit te voeren.
 
 ---
+# Log 12/07/2023
+
+
+## Dagverslag 
+- Onderzoek gedaan naar het plaatsen en uitvoeren van post-deployment scripts, en aanpassingen gedaan in de management server.
+
+## Obstakels
+- Omdat mijn S3 geblokkeerd naar het publiek, inclusief de administrator moet zijn, wist ik niet hoe ik bestanden daarin moest krijgen
+
+## Oplossingen
+- Ik heb ontdekt dat die bestanden lokaal geplaatst kunnen worden vanuit deployment
+
+## Learnings
+- Vanuit mijn collega's heb ik geleerd hoe ik directe SSH verbinding kan maken via bastion host naar een andere server.
+
+---
