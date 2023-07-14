@@ -496,3 +496,19 @@ Methodes om postdeployment scripts uit te voeren.
 - Vanuit mijn collega's heb ik geleerd hoe ik directe SSH verbinding kan maken via bastion host naar een andere server.
 
 ---
+# Log 13/07/2023
+
+
+## Dagverslag 
+- Ik heb de plan uitgewerkt om een postdeployment script te maken.
+
+## Obstakels
+- Ik had geen script om .sql bestanden te verwerken naar de RDS instance.
+
+## Oplossingen
+- Ik heb een bestaande script aangepast om niet alleen één lijn toe te voegen, maar een hele .sql bestand
+
+## Learnings
+- Lambda functies instellen.
+
+---
