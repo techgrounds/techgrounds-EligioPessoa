@@ -512,3 +512,19 @@ Methodes om postdeployment scripts uit te voeren.
 - Lambda functies instellen.
 
 ---
+# Log 14/07/2023
+
+
+## Dagverslag 
+- Ik heb een postdeployment script in CDK kunnen maken
+
+## Obstakels
+- Ik kon de password van de RDS instance niet instellen in mijn Lambda functie, zonder het op een onveilige manier te doen.
+
+## Oplossingen
+- Via AWS Secrets heb ik een referentie kunnen maken naar de RDS wachtwoord.
+
+## Learnings
+- CDK instellingen van AWS Secrets, Lambda en S3 Endpoint.
+
+---
