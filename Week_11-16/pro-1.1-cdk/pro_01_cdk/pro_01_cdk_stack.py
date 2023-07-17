@@ -5,11 +5,15 @@ from aws_cdk import aws_elasticloadbalancingv2 as elbv2, aws_autoscaling as auto
 from aws_cdk import aws_events as events, aws_events_targets as targets
 from aws_cdk import aws_backup as backup
 from aws_cdk import aws_iam as iam
-from aws_cdk import aws_kms as kms
 from aws_cdk import aws_autoscaling_common as common
 from aws_cdk import aws_cloudwatch as cloudwatch
 from aws_cdk import aws_certificatemanager as acm
-
+from aws_cdk import aws_s3_deployment as s3deploy
+from aws_cdk import aws_sqs as sqs
+from aws_cdk import aws_secretsmanager as secretsmanager
+from aws_cdk import aws_lambda as _lambda
+from aws_cdk import aws_lambda_event_sources as lambda_sources
+import json
 
 
 class Pro01CdkStack(Stack):
@@ -22,21 +26,22 @@ class Pro01CdkStack(Stack):
         self.setup_ec2()
         self.setup_s3_bucket()
         self.setup_load_balancer()
+        self.setup_secrets()
         self.setup_db()
         self.setup_backup()
+        self.setup_lambda()
 
     def setup_vpc(self):    
         # Public - NAT
         self.prod_vpc = ec2.Vpc(
             self,
-            "Network1",
+            "Production Network",
             ip_addresses=ec2.IpAddresses.cidr("10.10.10.0/24"),
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                     subnet_type=ec2.SubnetType.PUBLIC,
                     name="Public Subnet",
                 ),
-                
                 ec2.SubnetConfiguration(
                     subnet_type=ec2.SubnetType.PRIVATE_ISOLATED,
                     name="Private Subnet",
@@ -44,12 +49,17 @@ class Pro01CdkStack(Stack):
             ],            
             availability_zones=["eu-central-1a", "eu-central-1b" , "eu-central-1c"],
             nat_gateways=0,
+            gateway_endpoints={
+                "S3": ec2.GatewayVpcEndpointOptions(
+                    service=ec2.GatewayVpcEndpointAwsService.S3
+                )
+            },
         )
 
         
         self.mgmt_vpc = ec2.Vpc(
             self,
-            "Network2",
+            "Management Network",
             ip_addresses=ec2.IpAddresses.cidr("10.20.20.0/24"),
             subnet_configuration=[
                 ec2.SubnetConfiguration(
@@ -59,17 +69,163 @@ class Pro01CdkStack(Stack):
             ],
             availability_zones=["eu-central-1a", "eu-central-1b"],            
         )
-
         
+        # Create a new NACL for the public subnets of prod_vpc
+        '''self.prod_public_nacl = ec2.NetworkAcl(
+            self,
+            "ProdPublicNACL",
+            vpc=self.prod_vpc,
+            subnet_selection=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+        )
+
+        # Allow inbound HTTP traffic from anywhere
+        self.prod_public_nacl.add_entry(
+            "Allow HTTP",
+            cidr=ec2.AclCidr.ipv4("0.0.0.0/0"),
+            rule_number=110,
+            traffic=ec2.AclTraffic.tcp_port_range(80, 80),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        # Allow inbound HTTPS traffic from anywhere
+        self.prod_public_nacl.add_entry(
+            "Allow HTTPS",
+            cidr=ec2.AclCidr.ipv4("0.0.0.0/0"),
+            rule_number=120,
+            traffic=ec2.AclTraffic.tcp_port_range(443, 443),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        # Allow inbound traffic from the mgmt_vpc
+        self.prod_public_nacl.add_entry(
+            "Allow Mgmt VPC",
+            cidr=ec2.AclCidr.ipv4(self.mgmt_vpc.vpc_cidr_block),
+            rule_number=109,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        # Allow inbound traffic from the RDS instance to the public subnets of prod_vpc
+        self.prod_public_nacl.add_entry(
+            "Allow RDS",
+            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
+            rule_number=130,
+            traffic=ec2.AclTraffic.tcp_port_range(3306, 3306),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        # Allow all outbound traffic
+        self.prod_public_nacl.add_entry(
+            "Allow All Outbound",
+            cidr=ec2.AclCidr.any_ipv4(),
+            rule_number=100,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.EGRESS,
+        )'''
+
+        '''# Create a new NACL for the private subnets of prod_vpc
+        self.prod_private_nacl = ec2.NetworkAcl(
+            self,
+            "ProdPrivateNACL",
+            vpc=self.prod_vpc,
+            subnet_selection=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
+        )'''
+        # Allow inbound traffic from the RDS instance to the private subnets of prod_vpc
+        '''self.prod_private_nacl.add_entry(
+            "Allow RDS",
+            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
+            rule_number=130,
+            traffic=ec2.AclTraffic.tcp_port_range(3306, 3306),
+            direction=ec2.TrafficDirection.INGRESS,
+        )'''
+
+        '''# Allow inbound traffic from public NACL to private NACL
+        self.prod_private_nacl.add_entry(
+            "AllowInboundFromPublicNACL",
+            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
+            rule_number=100,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS
+        )'''
+
+        '''# Allow inbound traffic from the mgmt_vpc
+        self.prod_private_nacl.add_entry(
+            "Allow Mgmt VPC",
+            cidr=ec2.AclCidr.ipv4(self.mgmt_vpc.vpc_cidr_block),
+            rule_number=109,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        # Allow all outbound traffic
+        self.prod_private_nacl.add_entry(
+            "Allow All Outbound",
+            cidr=ec2.AclCidr.any_ipv4(),
+            rule_number=100,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.EGRESS,
+        )'''
+
+        # Create a new NACL for the public subnets of mgmt_vpc
+        self.mgmt_public_nacl = ec2.NetworkAcl(
+            self,
+            "MgmtPublicNACL",
+            vpc=self.mgmt_vpc,
+            subnet_selection=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+        )
+
+        # Add rules to allow inbound traffic from select IP addresses
+        ip_address = self.node.try_get_context("ip_address")
+        self.mgmt_public_nacl.add_entry(
+            "Allow IP Admin",
+            cidr=ec2.AclCidr.ipv4(ip_address),
+            rule_number=200,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+
+        self.mgmt_public_nacl.add_entry(
+            "Allow Outbound",
+            cidr=ec2.AclCidr.any_ipv4(),
+            rule_number=100,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+
+        '''# Allow inbound traffic from the RDS instance to the public subnets of mgmt_vpc
+        self.mgmt_public_nacl.add_entry(
+            "Allow RDS",
+            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
+            rule_number=130,
+            traffic=ec2.AclTraffic.tcp_port_range(3306, 3306),
+            direction=ec2.TrafficDirection.INGRESS,
+        )'''
+
+        # Add rules to allow inbound between mgmt_vpc and prod_vpc
+        self.mgmt_public_nacl.add_entry(
+            "Allow Prod VPC",
+            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
+            rule_number=199,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.INGRESS,
+        )
+        # Allow all outbound traffic
+        self.mgmt_public_nacl.add_entry(
+            "Allow All Outbound",
+            cidr=ec2.AclCidr.any_ipv4(),
+            rule_number=100,
+            traffic=ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.EGRESS,
+        )
+
         
         # Fetching references to the subnets where we intend to deploy our servers
-        self.subnet_webserver = self.prod_vpc.public_subnets[0]
-        self.subnet_mgmtserver = self.mgmt_vpc.public_subnets[0]
-       
+        '''self.subnet_webserver = self.prod_vpc.public_subnets[0]
+        self.subnet_mgmtserver = self.mgmt_vpc.public_subnets[0]'''
 
-        
-                
     def setup_s3_bucket(self):
+
         # Create an S3 bucket for storing post deployment scripts
         self.bucket = s3.Bucket(self, "PostDeploymentScripts",
             versioned=True,
@@ -77,8 +233,30 @@ class Pro01CdkStack(Stack):
             auto_delete_objects=True,
             bucket_name="postdeploymentscripts",
             encryption=s3.BucketEncryption.KMS,
-            #encryption_key=self.kms_key  # Use KMS key for encryption
-    )
+        )
+
+        s3deploy.BucketDeployment(self, 'DeployFile',
+            sources=[s3deploy.Source.asset('./mysqlsampledatabase.zip')],
+            destination_bucket=self.bucket
+        )
+
+        '''# Create a gateway endpoint for S3
+        s3_endpoint = ec2.GatewayVpcEndpoint(
+            self,
+            "S3Endpoint",
+            service=ec2.GatewayVpcEndpointAwsService.S3,
+            vpc=self.prod_vpc,
+        )'''
+
+        # Create an interface endpoint for S3
+        s3_interface_endpoint = ec2.InterfaceVpcEndpoint(
+            self,
+            "S3InterfaceEndpoint",
+            service=ec2.InterfaceVpcEndpointAwsService.S3,
+            vpc=self.prod_vpc,
+            subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
+            private_dns_enabled=False,
+        )
         
     def setup_security_group(self):
 
@@ -105,19 +283,124 @@ class Pro01CdkStack(Stack):
 
         # Open port 443 (HTTPS) on the security group for incoming traffic from any IP
         self.security_group_prod.connections.allow_from_any_ipv4(ec2.Port.tcp(443))
+
+        # Open port 3389 (RDP) on the security group for incoming traffic from any IP
+        self.security_group_mgmt.connections.allow_from_any_ipv4(ec2.Port.tcp(3389))
+
+        # Open port 80 (HTTP) on the security group for incoming traffic from any IP
+        self.security_group_mgmt.connections.allow_from_any_ipv4(ec2.Port.tcp(80))
+
+        # Open port 443 (HTTPS) on the security group for incoming traffic from any IP
+        self.security_group_mgmt.connections.allow_from_any_ipv4(ec2.Port.tcp(443))
         
     # Create EC2 instances
     def setup_ec2(self):
+        # Define AMI (Amazon Machine Image) for the EC2 instances
 
-        self.amzn_linux_ami = ec2.MachineImage.latest_amazon_linux2()
-       
+        #self.amzn_linux_ami = ec2.MachineImage.latest_amazon_linux2()
+         
+
+        self.windows_server_ami = ec2.MachineImage.latest_windows(
+            version=ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE
+        )
+
+        user_data = ec2.UserData.for_windows()
+        user_data.add_commands(
+            '''# Install OpenSSH
+            Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+            Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+
+            # Start the sshd service
+            Start-Service sshd
+
+            # Set the sshd service to start automatically
+            Set-Service -Name sshd -StartupType Automatic
+
+            # Confirm that the firewall rule is configured
+            Get-NetFirewallRule -Name *ssh*
+
+            # If the firewall rule is not configured, run the following command
+            New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+            # Disable IE ESC for Administrators
+            $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
+            $AdminValueName = "IsInstalled"
+            Set-ItemProperty -Path $AdminKey -Name $AdminValueName -Value 0
+
+            # Disable IE ESC for Users
+            $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
+            $UserValueName = "IsInstalled"
+            Set-ItemProperty -Path $UserKey -Name $UserValueName -Value 0
+
+            # Restart Windows Explorer to apply the changes
+            Stop-Process -Name explorer -Force
+            Start-Sleep -Seconds 3
+            Start-Process -FilePath explorer
+
+
+            # Install Chocolatey
+            Set-ExecutionPolicy Bypass -Scope Process -Force
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+            # Update the package list
+            choco upgrade chocolatey -y
+
+            # Install MySQL Workbench
+            choco install mysql.workbench -y
+
+            # Re-enable IE ESC for Administrators
+            $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
+            $AdminValueName = "IsInstalled"
+            Set-ItemProperty -Path $AdminKey -Name $AdminValueName -Value 1
+
+            # Re-enable IE ESC for Users
+            $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
+            $UserValueName = "IsInstalled"
+            Set-ItemProperty -Path $UserKey -Name $UserValueName -Value 1
+
+            # Restart Windows Explorer to apply the changes
+            Stop-Process -Name explorer -Force
+            Start-Sleep -Seconds 3
+            Start-Process -FilePath explorer'''
+        )
+
+        '''# Download and install MySQL
+        latest_mysql_url = "https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-8.0.26.0.msi"
+        user_data.add_commands(
+            "powershell.exe -ExecutionPolicy Bypass -Command",
+            f"Invoke-WebRequest -Uri {latest_mysql_url} -OutFile C:/mysql-installer.msi",
+            "C:/mysql-installer.msi /quiet",
+        )'''
         
-        # Create Management server
-        self.mgmt_server = ec2.Instance(self, "Management_Server",
+        self.mgmt_server = ec2.Instance(
+            self,
+            "Management_Server",
+            instance_type=ec2.InstanceType("t2.micro"),
+            machine_image=self.windows_server_ami,
+            vpc=self.mgmt_vpc,
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+            security_group=self.security_group_mgmt,
+            key_name="exp3",
+            user_data=user_data,
+            block_devices=[
+                ec2.BlockDevice(
+                    device_name="/dev/sda1",
+                    volume=ec2.BlockDeviceVolume.ebs(
+                        volume_size=32,
+                        volume_type=ec2.EbsDeviceVolumeType.GP2,
+                        encrypted=True,
+                    ),
+                )
+            ],
+        )
+        '''
+        self.mgmt_server = ec2.BastionHostLinux(self, "BastionHost",
+            vpc=self.mgmt_vpc,
+            subnet_selection=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
+            instance_name="BastionHost",
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=self.amzn_linux_ami,
-            vpc=self.mgmt_vpc,
-            vpc_subnets=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
             security_group=self.security_group_mgmt,
             block_devices=[ec2.BlockDevice(
                 device_name="/dev/xvda",
@@ -127,29 +410,31 @@ class Pro01CdkStack(Stack):
                     encrypted=True,
                 )
             )]
-        )
-        
-        
+        )''' '''
+        # Create Management server
+        self.mgmt_server = ec2.Instance(self, "Management_Server",
+            instance_type=ec2.InstanceType("t2.micro"),
+            machine_image=self.amzn_linux_ami,
+            vpc=self.mgmt_vpc,
+            vpc_subnets=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
+            security_group=self.security_group_mgmt,
+            key_name="exp3",
+            block_devices=[ec2.BlockDevice(
+                device_name="/dev/xvda",
+                volume=ec2.BlockDeviceVolume.ebs(
+                    volume_size=8,
+                    volume_type=ec2.EbsDeviceVolumeType.GP2,
+                    encrypted=True,
+                )
+            )]
+        )'''
 
         self.mgmt_server.node.add_metadata("Name", "Management_Server")
 
         
 
         # Allow SSH and RDP access from the management server to the production server
-        # Allow inbound RDP traffic from the mgmt_server instance
-        self.security_group_prod.add_ingress_rule(
-            peer=ec2.Peer.ipv4(f"{self.mgmt_server.instance_public_ip}/32"),
-            connection=ec2.Port.tcp(3389),
-            description="Allow inbound RDP traffic from mgmt_server"
-        )
-    
 
-        # Allow inbound SSH traffic from the mgmt_server instance
-        self.security_group_prod.add_ingress_rule(
-            peer=ec2.Peer.ipv4(f"{self.mgmt_server.instance_public_ip}/32"),
-            connection=ec2.Port.tcp(22),
-            description="Allow inbound SSH traffic from mgmt_server"
-        )
 
         # Allow SSH and RDP access from the management server to the production server
         self.security_group_prod.connections.allow_from(
@@ -178,7 +463,7 @@ class Pro01CdkStack(Stack):
 
         # Get the ID of the existing AMI
         web_server_image = ec2.MachineImage.generic_linux({
-            self.region: "ami-0ed632c4c0afe9791" 
+            self.region: "ami-056b1a787955b2bb6" 
         })
 
         # Use the existing AMI when creating the AutoScalingGroup
@@ -191,7 +476,7 @@ class Pro01CdkStack(Stack):
             health_check=autoscaling.HealthCheck.elb(
                 grace=cdk.Duration.minutes(5)
             ),
-            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO),
             machine_image=web_server_image, # Use the existing AMI
             key_name="exp3",
@@ -248,6 +533,7 @@ class Pro01CdkStack(Stack):
             port=443,
             protocol=elbv2.ApplicationProtocol.HTTPS,
             certificates=[certificate],
+            ssl_policy=elbv2.SslPolicy.TLS12_EXT # Only allow TLS 1.2 or higher
         )
         
         # Create a target group for the web servers
@@ -273,9 +559,7 @@ class Pro01CdkStack(Stack):
             path="/",
             timeout=cdk.Duration.seconds(5)
         )
-        
-        
-        
+
         # Create a custom metric for CPU utilization
         cpu_metric = cloudwatch.Metric(
             namespace="AWS/EC2",
@@ -542,12 +826,29 @@ class Pro01CdkStack(Stack):
                 ],
             ),
         )
-    
+
+    def setup_secrets(self):
+    # Create a secret to store the database password
+        self.db_secret = secretsmanager.Secret(
+            self,
+            "DBSecret",
+            generate_secret_string=secretsmanager.SecretStringGenerator(
+                secret_string_template=json.dumps({"username": "admin"}),
+                generate_string_key="password",
+                exclude_characters='"@/\\',
+            ),
+        )
+
+        # Create a VPC endpoint for Secrets Manager
+        secretsmanager_endpoint = self.prod_vpc.add_interface_endpoint(
+            "SecretsManagerEndpoint",
+            service=ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
+        )
+
     def setup_db(self):
         
-
         
-
+        # High-level constructs code
         subnet_group = rds.SubnetGroup(
             self,
             "myDBSubnetGroup",
@@ -556,7 +857,7 @@ class Pro01CdkStack(Stack):
             vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
         )
 
-        db_security_group = ec2.SecurityGroup(
+        self.db_security_group = ec2.SecurityGroup(
             self,
             "DBSecurityGroup",
             vpc=self.prod_vpc,
@@ -565,33 +866,126 @@ class Pro01CdkStack(Stack):
         )
 
         # Allow inbound traffic on default mysql port
-        db_security_group.add_ingress_rule(
+        self.db_security_group.add_ingress_rule(
             ec2.Peer.ipv4(self.prod_vpc.vpc_cidr_block),
+            ec2.Port.tcp(3306),
+        )
+
+        self.db_security_group.add_ingress_rule(
+            ec2.Peer.ipv4(self.mgmt_vpc.vpc_cidr_block),
             ec2.Port.tcp(3306),
         )
 
         # Create RDS instance in vpc2
         self.db_instance = rds.DatabaseInstance(
             self,
-            "RDSInstance",
-            database_name="database1",
+            "MySQLForLambda",
+            database_name="ExampleDB",
             engine=rds.DatabaseInstanceEngine.mysql(
                 version=rds.MysqlEngineVersion.VER_8_0
             ),
             instance_type=ec2.InstanceType("t3.micro"),
             vpc=self.prod_vpc,
-            security_groups=[db_security_group],
+            security_groups=[self.db_security_group],
             subnet_group=subnet_group,
             publicly_accessible=False,
             storage_encrypted=True,
-            #storage_encryption_key=self.kms_key,
             auto_minor_version_upgrade=True,
             backup_retention=cdk.Duration.days(7),
             multi_az=True,
             removal_policy=cdk.RemovalPolicy.DESTROY,
-        )
+            credentials=rds.Credentials.from_secret(self.db_secret),
+            )
+
+        '''credentials=rds.Credentials.from_username(
+            username="admin",
+            password=cdk.SecretValue.unsafe_plain_text("mypassword")
+        ),'''
+
         
-                # Peering Stack
+        self.db_security_group.connections.allow_from(
+            self.security_group_prod, ec2.Port.tcp(3306)
+            )
+        self.security_group_prod.connections.allow_from(
+            self.db_security_group, ec2.Port.tcp(3306)
+            )
+        self.security_group_mgmt.connections.allow_from(
+            self.db_security_group, ec2.Port.tcp(3306)
+            )
+        self.db_security_group.connections.allow_from(
+            self.security_group_mgmt, ec2.Port.tcp(3306)
+            )
+        self.db_security_group.connections.allow_from_any_ipv4(ec2.Port.tcp(3306))
+        
+
+    def setup_lambda(self):
+
+
+        # Define a parameter to accept the secret ARN as input
+        
+        secret = secretsmanager.Secret(self, "Secret")
+
+
+        # Create an IAM role for your Lambda function with necessary permissions
+        role = iam.Role(
+            self,
+            "lambda-vpc-sqs-role",
+            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
+        )
+
+        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
+        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaSQSQueueExecutionRole"))
+        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
+        #role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/ROSAKMSProviderPolicy"))
+        # Add a policy statement to allow the GetSecretValue action on the DBSecret resource
+        role.add_to_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["secretsmanager:DescribeSecret","secretsmanager:GetSecretValue"],
+            resources=[self.db_secret.secret_arn],
+        ))
+        # Get a reference to the KMS key that was automatically created for the bucket
+        my_key = self.bucket.encryption_key
+
+        # Add a policy statement to your lambda function's IAM role to allow it to use the KMS key
+        role.add_to_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["kms:Decrypt"],
+            resources=[my_key.key_arn],
+        ))
+
+        # Create a Lambda function that uses the code from your .zip deployment package
+        function = _lambda.Function(
+            self,
+            "LambdaFunctionWithRDS",
+            runtime=_lambda.Runtime.PYTHON_3_10,
+            handler="lambda_function.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_function.zip"),
+            role=role,
+            vpc=self.prod_vpc,
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
+            security_groups=[self.db_security_group],
+            timeout=cdk.Duration.seconds(30),
+            environment={
+                "USER_NAME": "admin",
+                "RDS_HOST": self.db_instance.db_instance_endpoint_address,
+                "DB_NAME": "ExampleDB",
+                "SECRET_NAME": self.db_secret.secret_name 
+            },
+        )
+
+
+        secret.grant_read(function)
+
+        # Create an Amazon SQS queue and configure it to invoke your Lambda function whenever a new message is added.
+        queue = sqs.Queue(self, "LambdaRDSQueue")
+        function.add_event_source(lambda_sources.SqsEventSource(queue))
+        
+
+
+
+
+        
+    # Peering Stack
     def setup_peering(self):
 
         
@@ -623,9 +1017,9 @@ class NetworkPeeringStack(NestedStack):
             vpc_id=vpc_one.vpc_id,
             peer_vpc_id=vpc_two.vpc_id,
         )
-        
 
-        # Add routes to all private subnets in VPC one
+
+        # Add routes to all subnets in VPC one
         for subnet in vpc_one.select_subnets().subnets:
             ec2.CfnRoute(
                 self,
@@ -645,9 +1039,18 @@ class NetworkPeeringStack(NestedStack):
                 vpc_peering_connection_id=self.vpc1tovpc2.ref,
             )
         
-
-            # Add routes to all subnets in VPC two
-        for subnet in vpc_two.select_subnets().subnets:
+        '''# Add routes to all private subnets in VPC one
+        for subnet in vpc_one.private_subnets:
+            ec2.CfnRoute(
+                self,
+                f"RouteFromVPC1toVPC2-{subnet.node.id}",
+                destination_cidr_block=vpc_two.vpc_cidr_block,
+                route_table_id=subnet.route_table.route_table_id,
+                vpc_peering_connection_id=self.vpc1tovpc2.ref,
+            )'''
+        
+        # Add routes to all public subnets in VPC two
+        for subnet in vpc_two.public_subnets:
             ec2.CfnRoute(
                 self,
                 f"RouteFromVPC2toVPC1-{subnet.node.id}",
