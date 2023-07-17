@@ -528,3 +528,22 @@ Methodes om postdeployment scripts uit te voeren.
 - CDK instellingen van AWS Secrets, Lambda en S3 Endpoint.
 
 ---
+
+---
+# Log 17/07/2023
+
+
+## Dagverslag 
+- Ik heb de verbindingen tussen servers en database getest en aangepast, en de IP adres input geconfigureerd.
+
+## Obstakels
+- Ik kon mijn webserver niet laten verbinden met mijn RDS instance
+- Ik moest achterkomen hoe ik de IP adres op een veilige manier zou kunnen instellen in de cdk
+## Oplossingen
+- Het bleek dat de webserver niet kon verbinden met de database omdat ze in publiek en privé subnets waren. Na het deployen op dezelfde subnets, konden ze communiceren.
+- Ik kwam achter dat het IP adres gezet kan worden via environment variables.
+
+## Learnings
+- CDK Environment variables, subnet configuratie en onderzoek naar permissies gedan.
+
+---
