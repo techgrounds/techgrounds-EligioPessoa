@@ -38,7 +38,7 @@ python -m pip install -r requirements.txt
 - Copieer het bestand 'pro-01-cdk.py' naar de folder "~/pro-01-cdk/pro_01_cdk"
 
 
-- In de terminal, voer uit de command "cdk deploy" in de folder "~/pro-01-cdk"
+- In de terminal, voer uit de command "cdk synth" in de folder "~/pro-01-cdk"
 
 
 (Versie 1.1: Doe hetzelfde voor de folder van versie 1.1)
@@ -46,7 +46,7 @@ python -m pip install -r requirements.txt
 
 # Provisionele toepassingen om de stack te kunnen deployen
 
-## SSL certificaat creërenen en uploaden
+## SSL certificaat creëren en uploaden
 
 De volgende commands horen uitgevoerd te worden in de (VSCode) CLI
 
@@ -57,25 +57,52 @@ De volgende commands horen uitgevoerd te worden in de (VSCode) CLI
 
 - Copieër de ARN nummer van de certificaat, en plaats het in plaats van degene die nu op `# Import an existing SSL certificate` staat.
 
+## Creër een key pair:
+
+- `aws ec2 create-key-pair --key-name your_key --query 'KeyMaterial' --output text > your_key.pem`
+- Als je vanuit Windows werkt, zorg dat de key in de goede formaat is: save file as UTF-8
+
+
+- Bij ec2 instance connect voer de volgende commands uit:
+```
+nano ~/.ssh/your_key.pem
+
+chmod 400 ~/.ssh/your_key.pem
+
+ssh -i ~/.ssh/your_key.pem ec2-user@(ip van de instance waarmee je wilt verbinden)
+```
+
 ## Web Server AMI creëren
 
-- Copiëer uit de repository het bestand "my_script.txt"
-- Maak een default VPC aan, als je nog geen hebt: `aws ec2 create-default-vpc``
-- Creër een instance: `aws ec2 run-instances --image-id ami-0aea56f3589631913 --instance-type t2.micro --user-data file://my_script.txt`
+- Copiëer uit de repository het bestand "linux_script.txt"
+- Maak een default VPC aan, als je nog geen hebt: `aws ec2 create-default-vpc`
+- Zorg dat je default security group HTTP (Port 80) toestaat:
+ - - Security group ID: `aws ec2 describe-security-groups --filter Name=group-name,Values=default --query 'SecurityGroups[*].[GroupId,GroupName]' --output text`
+ - Allow HTTP: `aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 --protocol tcp --port 80 --cidr 0.0.0.0/0`
+- Creër een instance: `aws ec2 run-instances --image-id ami-0aea56f3589631913 --instance-type t2.micro --user-data file://linux_script.txt`
 - Wacht een minuut of twee, dan voer deze command uit: `aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].InstanceId"`
 - Copiëer de instance ID, en plaats het in deze command: `aws ec2 create-image --instance-id i-xxxxxxxxxxxxxxxxx --name "My server" --description "An image for my server" --no-reboot`
 - Copiëer de Image Id die verschjint, en plaats het in de cdk bij: `# Get the ID of the existing AMI`
+- Verwijder de instance: `aws ec2 terminate-instances --instance-ids i-xxxxxxxxxxxxxxxx`
+- Verwijder je security group regel: `aws ec2 revoke-security-group-ingress --group-id sg-0123456789abcdef0 --protocol tcp --port 80 --cidr 0.0.0.0/0`
 
-## Creër een key pair:
+## Management Server AMI creëren
 
-- `aws ec2 create-key-pair --key-name exp3 --query 'KeyMaterial' --output text > exp3.pem`
-- Copiëer de private key die vertoond wordt
-- Bij ec2 instance connect voer de volgende commands uit:
-```
-nano ~/.ssh/exp3.pem
+- Copiëer uit de repository het bestand "windows_script.txt"
+- Maak een default VPC aan, als je nog geen hebt: `aws ec2 create-default-vpc``
+- Zorg dat je default security group alle verkeer toestaat:
+  - Security group ID: `aws ec2 describe-security-groups --filter Name=group-name,Values=default --query 'SecurityGroups[*].[GroupId,GroupName]' --output text`
+  - Allow All Traffic: `aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 --protocol -1 --cidr 0.0.0.0/0`
+- Creër een instance: aws ec2 run-instances --image-id ami-0df2883917b75bae7 --instance-type t2.micro --user-data file://windows_script.txt --key-name your_key
+- Wacht een minuut of twee, dan voer deze command uit:  `aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].InstanceId"`
+- Copiëer de instance ID, en plaats het in deze command: `aws ec2 create-image --instance-id i-xxxxxxxxxxxxxxxxx --name "Management Server" --description "Windows Server Image" --no-reboot`
+- Zorg dat je het wachtwoord kopieërt: `aws ec2 get-password-data --instance-id i-071c319d280a861d5 --priv-launch-key pexp3.pem --query 'PasswordData' --output text | Set-Content password.txt`
+- Verwijder de instance: `aws ec2 terminate-instances --instance-ids i-xxxxxxxxxxxxxxxx`
+- Verwijder je security group regel: `aws ec2 revoke-security-group-ingress --group-id sg-0123456789abcdef0 --protocol -1 --cidr 0.0.0.0/0`
 
-chmod 400 ~/.ssh/exp3.pem
+# Als alles klaar is:
 
-ssh -i ~/.ssh/exp3.pem ec2-user@(ip van de instance waarmee je wilt verbinden)
-```
+- Deploy je stack de CLI, in de folder waar het project staat:
+
+`cdk deploy --context ip_address=your_ip/32`
 
