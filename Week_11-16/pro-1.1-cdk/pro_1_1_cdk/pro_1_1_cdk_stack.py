@@ -123,15 +123,6 @@ class Pro11CdkStack(Stack):
             direction=ec2.TrafficDirection.INGRESS
         )
 
-        '''# Allow inbound traffic from the RDS instance to the public subnets of prod_vpc
-        self.prod_public_nacl.add_entry(
-            "Allow RDS",
-            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
-            rule_number=130,
-            traffic=ec2.AclTraffic.tcp_port_range(3306, 3306),
-            direction=ec2.TrafficDirection.INGRESS,
-        )'''
-
         # Allow all outbound traffic
         self.prod_public_nacl.add_entry(
             "Allow All Outbound",
@@ -215,24 +206,6 @@ class Pro11CdkStack(Stack):
             direction=ec2.TrafficDirection.INGRESS,
         )
 
-
-        '''self.mgmt_public_nacl.add_entry(
-            "Allow Outbound",
-            cidr=ec2.AclCidr.any_ipv4(),
-            rule_number=100,
-            traffic=ec2.AclTraffic.all_traffic(),
-            direction=ec2.TrafficDirection.INGRESS,
-        )'''
-
-        '''# Allow inbound traffic from the RDS instance to the public subnets of mgmt_vpc
-        self.mgmt_public_nacl.add_entry(
-            "Allow RDS",
-            cidr=ec2.AclCidr.ipv4(self.prod_vpc.vpc_cidr_block),
-            rule_number=130,
-            traffic=ec2.AclTraffic.tcp_port_range(3306, 3306),
-            direction=ec2.TrafficDirection.INGRESS,
-        )'''
-
         # Add rules to allow inbound between mgmt_vpc and prod_vpc
         self.mgmt_public_nacl.add_entry(
             "Allow Prod VPC",
@@ -250,12 +223,6 @@ class Pro11CdkStack(Stack):
             direction=ec2.TrafficDirection.EGRESS,
         )
 
-
-        
-        # Fetching references to the subnets where we intend to deploy our servers
-        '''self.subnet_webserver = self.prod_vpc.public_subnets[0]
-        self.subnet_mgmtserver = self.mgmt_vpc.public_subnets[0]'''
-
     def setup_s3_bucket(self):
 
         # Create an S3 bucket for storing post deployment scripts
@@ -271,14 +238,6 @@ class Pro11CdkStack(Stack):
             sources=[s3deploy.Source.asset('./mysqlsampledatabase.zip')],
             destination_bucket=self.bucket
         )
-
-        '''# Create a gateway endpoint for S3
-        s3_endpoint = ec2.GatewayVpcEndpoint(
-            self,
-            "S3Endpoint",
-            service=ec2.GatewayVpcEndpointAwsService.S3,
-            vpc=self.prod_vpc,
-        )'''
 
         # Create an interface endpoint for S3
         s3_interface_endpoint = ec2.InterfaceVpcEndpoint(
@@ -337,81 +296,7 @@ class Pro11CdkStack(Stack):
     def setup_ec2(self):
         # Define AMI (Amazon Machine Image) for the EC2 instances
 
-        #self.amzn_linux_ami = ec2.MachineImage.latest_amazon_linux2()
-         
-
-        '''self.windows_server_ami = ec2.MachineImage.latest_windows(
-            version=ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE
-        )'''
-
-        user_data = ec2.UserData.for_windows()
-        user_data.add_commands(
-            '''# Install OpenSSH
-            Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
-            Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-
-            # Start the sshd service
-            Start-Service sshd
-
-            # Set the sshd service to start automatically
-            Set-Service -Name sshd -StartupType Automatic
-
-            # Confirm that the firewall rule is configured
-            Get-NetFirewallRule -Name *ssh*
-
-            # If the firewall rule is not configured, run the following command
-            New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
-
-            # Disable IE ESC for Administrators
-            $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
-            $AdminValueName = "IsInstalled"
-            Set-ItemProperty -Path $AdminKey -Name $AdminValueName -Value 0
-
-            # Disable IE ESC for Users
-            $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
-            $UserValueName = "IsInstalled"
-            Set-ItemProperty -Path $UserKey -Name $UserValueName -Value 0
-
-            # Restart Windows Explorer to apply the changes
-            Stop-Process -Name explorer -Force
-            Start-Sleep -Seconds 3
-            Start-Process -FilePath explorer
-
-
-            # Install Chocolatey
-            Set-ExecutionPolicy Bypass -Scope Process -Force
-            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-            # Update the package list
-            choco upgrade chocolatey -y
-
-            # Install MySQL Workbench
-            choco install mysql.workbench -y
-
-            # Re-enable IE ESC for Administrators
-            $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
-            $AdminValueName = "IsInstalled"
-            Set-ItemProperty -Path $AdminKey -Name $AdminValueName -Value 1
-
-            # Re-enable IE ESC for Users
-            $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
-            $UserValueName = "IsInstalled"
-            Set-ItemProperty -Path $UserKey -Name $UserValueName -Value 1
-
-            # Restart Windows Explorer to apply the changes
-            Stop-Process -Name explorer -Force
-            Start-Sleep -Seconds 3
-            Start-Process -FilePath explorer'''
-        )
-
-        '''# Download and install MySQL
-        latest_mysql_url = "https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-8.0.26.0.msi"
-        user_data.add_commands(
-            "powershell.exe -ExecutionPolicy Bypass -Command",
-            f"Invoke-WebRequest -Uri {latest_mysql_url} -OutFile C:/mysql-installer.msi",
-            "C:/mysql-installer.msi /quiet",
-        )'''
+        
 
         # Get the ID of the existing AMI
         self.mgmt_server_image = ec2.MachineImage.generic_windows({
@@ -438,41 +323,7 @@ class Pro11CdkStack(Stack):
                     ),
                 )
             ],
-        )
-        '''
-        self.mgmt_server = ec2.BastionHostLinux(self, "BastionHost",
-            vpc=self.mgmt_vpc,
-            subnet_selection=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
-            instance_name="BastionHost",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=self.amzn_linux_ami,
-            security_group=self.security_group_mgmt,
-            block_devices=[ec2.BlockDevice(
-                device_name="/dev/xvda",
-                volume=ec2.BlockDeviceVolume.ebs(
-                    volume_size=8,
-                    volume_type=ec2.EbsDeviceVolumeType.GP2,
-                    encrypted=True,
-                )
-            )]
-        )''' '''
-        # Create Management server
-        self.mgmt_server = ec2.Instance(self, "Management_Server",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=self.amzn_linux_ami,
-            vpc=self.mgmt_vpc,
-            vpc_subnets=ec2.SubnetSelection(subnets=[self.subnet_mgmtserver]),
-            security_group=self.security_group_mgmt,
-            key_name="exp3",
-            block_devices=[ec2.BlockDevice(
-                device_name="/dev/xvda",
-                volume=ec2.BlockDeviceVolume.ebs(
-                    volume_size=8,
-                    volume_type=ec2.EbsDeviceVolumeType.GP2,
-                    encrypted=True,
-                )
-            )]
-        )'''
+        )        
 
         self.mgmt_server.node.add_metadata("Name", "Management_Server")
 
@@ -641,8 +492,6 @@ class Pro11CdkStack(Stack):
         backup_role = iam.Role(self, "BackupRole",
                             assumed_by=iam.ServicePrincipal("backup.amazonaws.com"))
 
-        # Define the ARN of your KMS key
-        #kms_key_arn = "arn:aws:kms:REGION:ACCOUNT_ID:key/KMS_KEY_ID"  # Replace with the ARN of your KMS key
 
         # Create a new policy that grants access to perform backups
         backup_policy = iam.Policy(self, "BackupPolicy",
@@ -725,7 +574,6 @@ class Pro11CdkStack(Stack):
                     'kms:DescribeKey'
                 ],
                 resources=['*'],
-                #resources=[self.kms_key.key_arn],
                 effect=iam.Effect.ALLOW,
                 sid="KMSPermissions",
                 conditions={"StringLike": {"kms:ViaService": "s3.*.amazonaws.com"}}
@@ -864,10 +712,8 @@ class Pro11CdkStack(Stack):
                 iam_role_arn=backup_role.role_arn,  # Use the ARN of the backup_role
                 selection_name="my-backup-selection",
                 resources=[
-                    #f"arn:aws:ec2:{self.region}:{self.account}:instance/{self.web_server.instance_id}",  # Reference to the web server instance
                     f"arn:aws:ec2:{self.region}:{self.account}:instance/{self.mgmt_server.instance_id}",  # Reference to the management server instance
                     self.bucket.bucket_arn,  # Reference to the S3 bucket
-                   # f"arn:aws:rds:{self.region}:{self.account}:db:my-rds-instance",  # Reference to the RDS instance
                 ],
             ),
         )
@@ -910,17 +756,6 @@ class Pro11CdkStack(Stack):
             allow_all_outbound=True,
         )
 
-        '''# Allow inbound traffic on default mysql port
-        self.db_security_group.add_ingress_rule(
-            ec2.Peer.ipv4(self.prod_vpc.vpc_cidr_block),
-            ec2.Port.tcp(3306),
-        )
-
-        self.db_security_group.add_ingress_rule(
-            ec2.Peer.ipv4(self.mgmt_vpc.vpc_cidr_block),
-            ec2.Port.tcp(3306),
-        )'''
-
         # Create RDS instance in vpc2
         self.db_instance = rds.DatabaseInstance(
             self,
@@ -941,12 +776,6 @@ class Pro11CdkStack(Stack):
             removal_policy=cdk.RemovalPolicy.DESTROY,
             credentials=rds.Credentials.from_secret(self.db_secret),
             )
-
-        '''credentials=rds.Credentials.from_username(
-            username="admin",
-            password=cdk.SecretValue.unsafe_plain_text("mypassword")
-        ),'''
-
         
         self.db_security_group.connections.allow_from(
             self.security_group_prod, ec2.Port.tcp(3306)
@@ -960,7 +789,6 @@ class Pro11CdkStack(Stack):
         self.db_security_group.connections.allow_from(
             self.security_group_mgmt, ec2.Port.tcp(3306)
             )
-        '''self.db_security_group.connections.allow_from_any_ipv4(ec2.Port.tcp(3306))'''
         
 
     def setup_lambda(self):
@@ -981,7 +809,6 @@ class Pro11CdkStack(Stack):
         role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
         role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaSQSQueueExecutionRole"))
         role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
-        #role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/ROSAKMSProviderPolicy"))
         # Add a policy statement to allow the GetSecretValue action on the DBSecret resource
         role.add_to_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
@@ -1035,17 +862,6 @@ class Pro11CdkStack(Stack):
         # Create an Amazon SQS queue and configure it to invoke your Lambda function whenever a new message is added.
         queue = sqs.Queue(self, "LambdaRDSQueue")
         function.add_event_source(lambda_sources.SqsEventSource(queue))
-
-        '''role.add_to_policy(iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            actions=["sqs:SendMessage"],
-            resources=[queue.queue_arn],
-        ))'''
-
-        
-
-
-
 
         
     # Peering Stack
@@ -1101,17 +917,7 @@ class NetworkPeeringStack(NestedStack):
                 route_table_id=subnet.route_table.route_table_id,
                 vpc_peering_connection_id=self.vpc1tovpc2.ref,
             )
-        
-        '''# Add routes to all private subnets in VPC one
-        for subnet in vpc_one.private_subnets:
-            ec2.CfnRoute(
-                self,
-                f"RouteFromVPC1toVPC2-{subnet.node.id}",
-                destination_cidr_block=vpc_two.vpc_cidr_block,
-                route_table_id=subnet.route_table.route_table_id,
-                vpc_peering_connection_id=self.vpc1tovpc2.ref,
-            )'''
-        
+
         # Add routes to all public subnets in VPC two
         for subnet in vpc_two.public_subnets:
             ec2.CfnRoute(
