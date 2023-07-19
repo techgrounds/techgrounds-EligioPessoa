@@ -529,7 +529,6 @@ Methodes om postdeployment scripts uit te voeren.
 
 ---
 
----
 # Log 17/07/2023
 
 
@@ -545,5 +544,21 @@ Methodes om postdeployment scripts uit te voeren.
 
 ## Learnings
 - CDK Environment variables, subnet configuratie en onderzoek naar permissies gedan.
+
+---
+
+# Log 18/07/2023
+
+
+## Dagverslag 
+- Ik heb NACLs en Security Groups aangepast aan de meest recente veranderingen
+
+## Obstakels
+- Na het aanpassen van mijn veiligheidsinstellingen, werkte mijn Lambda functie niet meer
+## Oplossingen
+- Ik was vergeten een security group voor de Lambda functie zelf aan te maken. Daarna ging alles goed.
+
+## Learnings
+- Onderzoek gedaan naar perimissies voor SQS.
 
 ---
