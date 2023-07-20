@@ -559,6 +559,23 @@ Methodes om postdeployment scripts uit te voeren.
 - Ik was vergeten een security group voor de Lambda functie zelf aan te maken. Daarna ging alles goed.
 
 ## Learnings
-- Onderzoek gedaan naar perimissies voor SQS.
+- Onderzoek gedaan naar permissies voor SQS.
+
+---
+
+# Log 19/07/2023
+
+
+## Dagverslag 
+- Ik heb gewerkt aan mijn documentatie, wat aanpassingen gedaan aan de NACL, en een Windows image gecreërd.
+
+## Obstakels
+- Mijn RDS instance kon niet verbinden met mijn EC2 instance, al was de NACL tussen open gemaakt
+
+## Oplossingen
+- RDP poort moest open in de privé subnets NACL
+
+## Learnings
+- Benodigheden voor het bereiden van een Windows image.
 
 ---
