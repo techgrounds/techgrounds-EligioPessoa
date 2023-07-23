@@ -4,11 +4,9 @@ Voor het project die ik uitgevoerd heb, de volgende eisen zijn aangegeven:
 User story:
 
 | **Als klant wil ik een werkende applicatie hebben waarmee ik een veilig netwerk kan deployen** | 
-
+| ---------------------------------------------------------------------------------------------- | 
 | **Epic** | v1.0 |
-
 | **Beschrijving** | De applicatie moet een netwerk opbouwen dat aan alle eisen voldoet. Een voorbeeld van een genoemde eis is dat alleen verkeer van trusted sources de management server mag benaderen. |
-
 | **Deliverable** | IaC-code voor het netwerk en alle onderdelen | 
 
 
