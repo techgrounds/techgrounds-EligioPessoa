@@ -1,47 +1,20 @@
 Voor het project die ik uitgevoerd heb, de volgende eisen zijn aangegeven:
 
 
-| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een veilig netwerk kan deployen** | 
-| -------------- | ------------------------------------------------------------------------------ | 
-| **Epic** | v1.0 |
-| **Beschrijving** | De applicatie moet een netwerk opbouwen dat aan alle eisen voldoet. Een voorbeeld van een genoemde eis is dat alleen verkeer van trusted sources de management server mag benaderen. |
-| **Deliverable** | IaC-code voor het netwerk en alle onderdelen | 
 
-| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende webserver kan deployen** |
-| -------------- | -------------------------------| 
-| **Epic** | v1.0 |
-| **Beschrijving** | De applicatie moet een webserver starten en deze beschikbaar maken voor algemeen publiek. |
-| **Deliverable** | IaC-code voor en webserver en alle benodigdheden
 
-| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende management server kan deployen** |
-| -------------- | -------------------------------| 
-| **Epic** | v1.0 |
-| **Beschrijving** | De applicatie moet een management server starten en deze beschikbaar maken voor een beperkt publiek. |
-| **Deliverable** | IaC-code voor een management server met alle benodigdheden |
 
-| **User story** | **Als klant wil ik een opslagoplossing hebben waarin bootstrap/post-deployment script opgeslagen kunnen worden** |
-| -------------- | -------------------------------| 
-| **Epic** | v1.0 |
-| **Beschrijving** | Er moet een locatie beschikbaar zijn waar bootstrap scripts beschikbaar worden. Deze script moeten niet publiekelijk toegankelijk zijn. |
-| **Deliverable** | IaC-code voor een opslagoplossing voor scripts |
 
-| **User story** | **Als klant wil ik dat al mijn data in de infrastructuur is versleuteld** |
-| -------------- | -------------------------------| 
-| **Epic** | v1.0 |
-| **Beschrijving** | Er wordt veel gehecht aan de veiligheid van de data at rest en in motion. Alle data moet versleuteld zijn. |
-| **Deliverable** | IaC-code voor versleuteling voorzieningen |
 
-| **User story** | **Als klant wil ik iedere dag een backup hebben dat 7 dagen behouden wordt** |
-| -------------- | -------------------------------| 
-| **Epic** | v1.0 |
-| **Beschrijving** | De klant wil graag dat er een backup beschikbaar is, mocht het nodig zijn om de servers terug te brengen naar een eerdere staat. (Zorg ervoor dat de Backup ook daadwerkelijk werkt) |
-| **Deliverable** | IaC-code voor backup voorzieningen |
+
+
 
 | **User story** | **Als klant wil ik weten hoe ik de applicatie kan gebruiken** |
 | -------------- | -------------------------------| 
 | **Epic** | v1.0 |
 | **Beschrijving** | Zorg dat de klant kan begrijpen hoe deze de applicatie kan gebruiken. Zorg dat het duidelijk is wat de klant moet configureren voor de deployment kan starten en welke argumenten het programma nodig heeft. |
 | **Deliverable** | Documentatie voor het gebruik van de applicatie |
+
 
 | **User story** | **Als klant wil ik een MVP kunnen deployen om te testen** |
 | -------------- | -------------------------------| 
@@ -64,9 +37,10 @@ Voor het project die ik uitgevoerd heb, de volgende eisen zijn aangegeven:
 
 
 
+De volgende eisen zijn aangegeven als noodzakelijk:
 
-Alle VM disks moeten encrypted zijn.
-De webserver moet dagelijks gebackupt worden. De backups moeten 7 dagen behouden worden.
+
+
 De webserver moet op een geautomatiseerde manier geïnstalleerd worden.
 De admin/management server moet bereikbaar zijn met een publiek IP.
 De admin/management server moet alleen bereikbaar zijn van vertrouwde locaties (office/admin’s thuis)
@@ -77,6 +51,12 @@ SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de 
 
 
 # Netwerk
+
+| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een veilig netwerk kan deployen** | 
+| -------------- | ------------------------------------------------------------------------------ | 
+| **Epic** | v1.0 |
+| **Beschrijving** | De applicatie moet een netwerk opbouwen dat aan alle eisen voldoet. Een voorbeeld van een genoemde eis is dat alleen verkeer van trusted sources de management server mag benaderen. |
+| **Deliverable** | IaC-code voor het netwerk en alle onderdelen | 
 
 
 2 VPC's moeten worden aangemaakt. Één voor productie omgeving, andere voor administratie/management omgeving. 
@@ -90,17 +70,29 @@ SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de 
 - Moeten de availability zones van de management vpc publiek zijn????<------------------------
  - UPDATE: private subnets zullen toegepast worden voor de database
 
-# Services
+# Servers
 
-- Omdat er piektijden zijn, moet er een auto-scaler samen met een load balancer geconfigureerd worden. Die zal gekoppeld zijn aan de webserver. 
-- Omdat er geen buitengewoon verkeer wordt verwacht, zal er één EC2 instance altijd aan zijn. Er moet nog bepaald worden of het een Reserved instance is of On-Demand. Ik neig naar Reserved, omdat het altijd aan moet zijn. Aan de andere kant, ik weet niet of het te doen is met IaC.<---------------------
-  - Overleg met de groep heeft getoond dat projektmatig het niet verstandig zou zijn om Reserved Instances te gebruiken, omdat het ook getest moet worden.
-  - De auto-scaler zal maximaal 4 instances tegelijk aan hebben. Dit om te zorgen dat er genoeg instances zijn. Er is gecomuniceerd dat de piekverkeer niet buitengewoon hoog is, dus lijkt het meer dan 6 instances overbodig.
-- Er moet een URL gecreërd worden voor de webserver. Die zou door Route 53 gemaakt moeten worden.
-- Bij het creëren van de EC2 instance(s) moet er op de user data configuratie ingesteld worden voor een webserver. Uit overleg met PO is het gebleken dat gebruikers zich moeten kunnen inschrijven op een nieuwsbrief, dus er zal een veld moeten zijn waar een e-mail adres ingevoerd kan worden, die dan bewaard wordt in de database van de management server.
+| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende webserver kan deployen** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De applicatie moet een webserver starten en deze beschikbaar maken voor algemeen publiek. |
+| **Deliverable** | IaC-code voor en webserver en alle benodigdheden
 
-UPDATE: Onderzoek heeft getoond dat het gebruik van het object .connections best practice is, in plaats van Direct manipulation of the Security Group through addIngressRule and addEgressRule.
- - Verder zie ik dat de security group van de web server regels moet hebben waar er toegang wordt gekregen via de management server met SSH en RDP. UPDATE: er moet geen elastic ip zijn in de management server, omdat het niet noodzakelijk is.
+| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende management server kan deployen** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De applicatie moet een management server starten en deze beschikbaar maken voor een beperkt publiek. |
+| **Deliverable** | IaC-code voor een management server met alle benodigdheden |
+
+
+- De product owner heeft aangegeven dat er piektijden zijn. Daardoor wordt er er een auto-scaler samen met een load balancer toegepast. Die zal gekoppeld zijn aan de webserver. 
+ - Omdat er geen buitengewoon verkeer wordt verwacht, zal er één EC2 instance altijd aan zijn. 
+ - Versie 1.1: De auto-scaler zal maximaal 3 instances tegelijk aan hebben. Dit om te zorgen dat er genoeg instances zijn. Er is gecomuniceerd dat de piekverkeer niet buitengewoon hoog is.
+- Er moet een URL gecreërd worden voor de webserver. Er werd overwogen of die door Route 53 gemaakt zou moeten worden. Overleg met de product owner heeft getoond dat de DNS van de load balancer voldoende is.
+- Bij het creëren van de EC2 instance(s) moet er op de user data configuratie ingesteld worden voor een webserver. Uit overleg met PO is het gebleken dat gebruikers zich moeten kunnen inschrijven op een nieuwsbrief, die dan bewaard wordt in de database. Er moet dus gezorgd worden dat de webserver kan communiceren met de database.
+ - Versie 1.1: Omdat de webserver nu geen publiek ip mag hebben, moet het uit een voorbereide AMI gebouwd worden.
+
+
 
 
 
@@ -118,19 +110,52 @@ UPDATE: Ik zie nu dat als ik een RDS met Multi-AZ wil opzetten, kan ik de primai
 
 # Beveiliging
 
-- Volgens de aangegeven instellingen, hoort er een KMS toegepast te worden. Echter hoort alle data at rest en in transit versleuteld te worden. Ik moet nog onderzoeken hoe KMS toegepast moet worden.<------------------------------
+| **User story** | **Als klant wil ik dat al mijn data in de infrastructuur is versleuteld** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | Er wordt veel gehecht aan de veiligheid van de data at rest en in motion. Alle data moet versleuteld zijn. |
+| **Deliverable** | IaC-code voor versleuteling voorzieningen |
+
+
+
+- Om de versleuteling uit te voeren, wordt de service AWS KMS toegepast.
+- De data die versleuteld wordt is:
+ - De webserver
+ - De management server
+ - De S3 bucket
+ - De RDS database instance
+
+
 - Er moeten security groups aan beide servers toegepast worden. 
-- SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de admin server. Dit betekent dat Security Groups uitgaande verbindingen vanuit die protocollen op de webserver geblokeerd moeten worden.
+- SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de admin server. 
 
 # Opslag
 
-Het is bekend dat de klant een opslagoplossing wilt hebben waarin bootstrap/post-deployment script opgeslagen kunnen worden. Er moet dus een S3 zijn, die niet toegankelijk is voor het pupliek, waar ze bewaard worden. Ik weet niet of die scripts er al in staan, of er een script gemaakt moet worden om ze daarin te plaatsen.<--------------
+
+| **User story** | **Als klant wil ik een opslagoplossing hebben waarin bootstrap/post-deployment script opgeslagen kunnen worden** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | Er moet een locatie beschikbaar zijn waar bootstrap scripts beschikbaar worden. Deze script moeten niet publiekelijk toegankelijk zijn. |
+| **Deliverable** | IaC-code voor een opslagoplossing voor scripts |
+
+- Overleg met de klant heeft getoond dat de voorkeur ligt op een S3 bucket waar SQL scripts worden bewaard.
+- Er is verder bekend gemaakt dat die bucket niet publiek toegankelijk moet zijn. Daardoor is er gezorgd dat de script vanuit de stack geüpload wordt.
+- Om die script later naar de RDS database te laten exporteren, is er gezorgd voor een Lambda functie die die operatie uitvoert.
 
 
 # Backups
 
-Het is bekend dat de klant iedere dag een backup wilt hebben dat 7 dagen behouden wordt. De service AWS Backup wordt aangewezen, maar ik moet kijken hoe dat toegepast kan worden, en op welke servers (allebei?)
-	UPDATE: Overleg met de product owner heeft getoond dat de web server geen behoefte heeft aan een backup oplossing, omdat de klant zelf het makkelijk kan herstellen, ook als er aanpassingen komen.
+| **User story** | **Als klant wil ik iedere dag een backup hebben dat 7 dagen behouden wordt** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De klant wil graag dat er een backup beschikbaar is, mocht het nodig zijn om de servers terug te brengen naar een eerdere staat. (Zorg ervoor dat de Backup ook daadwerkelijk werkt) |
+| **Deliverable** | IaC-code voor backup voorzieningen |
+
+
+- Om de backups uit te voeren wordt gebruik gemaakt van de service AWS Backup.
+- Overleg met de product owner heeft getoond dat de web server geen behoefte heeft aan een backup oplossing, omdat de klant zelf het makkelijk kan herstellen, ook als er aanpassingen komen. 
+- Omdat de RDS database service zelf backup voorzieningen bevat, is er besloten die te gebruiken in plaats van AWS Backup.
+- Er worden dus backups uitgevoerd van de management server en de S3 bucket.
 
 
 
