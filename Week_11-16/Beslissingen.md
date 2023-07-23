@@ -65,9 +65,9 @@ SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de 
 - Elke VPC dient 2 availability zones te hebben, met een subnet in elke AZ. In het geval van de management vpc, zal die als backup dienen in het geval van uitval van de hoofdmanagement server en availability zone. In het geval van de applicatie productie VPC, omdat er piekverkeer momenten kunnen zijn, zullen er extra availability zones zijn om te zorgen dat er extra EC2 instances gecreërd kunnen worden door middel van een auto-scaler, met natuurlijk een load balancer om de load te balanceren tussen die instances. Uitzoeken of er ook meerdere availability zones beschikbaar gesteld kunnen worden voor de webserver.<----------------------
 - Om verbinding te maken tussen de twee VPC's wordt een VPC peering connection gebruikt. Uit kostoverwegingen lijkt het verstandig om te zorgen dat de services die altijd aan zullen zijn op dezelfde availability zone zitten, waardoor er geen kosten komen.
 
-------------- Het is aangegeven dat IP ranges 10.10.10.0/24 & 10.20.20.0/24 worden gebruikt. Echter weet ik nog niet of ik ze per VPC of per subnet moet indelen. Moet hierover vragen, maar ik ben van plan om per VPC in te delen<--------------------------------------
+-Het is aangegeven dat IP ranges 10.10.10.0/24 & 10.20.20.0/24 worden gebruikt. 
 - per subnet moet een NACL zijn, die dient als firewall op subnet niveau. De ip adressen die daarin toegelaten zullen worden zijn nu niet bekend. Er zullen misschien maatregelen genomen moeten worden om die IP adressen later aan te passen. (user input?)
-- Moeten de availability zones van de management vpc publiek zijn????<------------------------
+
  - UPDATE: private subnets zullen toegepast worden voor de database
 
 # Servers
