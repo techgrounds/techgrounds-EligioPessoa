@@ -2,10 +2,66 @@ Voor het project die ik uitgevoerd heb, de volgende eisen zijn aangegeven:
 
 
 | **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een veilig netwerk kan deployen** | 
-| ---------------- | ------------------------------------------------------------------------------ | 
+| -------------- | ------------------------------------------------------------------------------ | 
 | **Epic** | v1.0 |
 | **Beschrijving** | De applicatie moet een netwerk opbouwen dat aan alle eisen voldoet. Een voorbeeld van een genoemde eis is dat alleen verkeer van trusted sources de management server mag benaderen. |
 | **Deliverable** | IaC-code voor het netwerk en alle onderdelen | 
+
+| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende webserver kan deployen** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De applicatie moet een webserver starten en deze beschikbaar maken voor algemeen publiek. |
+| **Deliverable** | IaC-code voor en webserver en alle benodigdheden
+
+| **User story** | **Als klant wil ik een werkende applicatie hebben waarmee ik een werkende management server kan deployen** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De applicatie moet een management server starten en deze beschikbaar maken voor een beperkt publiek. |
+| **Deliverable** | IaC-code voor een management server met alle benodigdheden |
+
+| **User story** | **Als klant wil ik een opslagoplossing hebben waarin bootstrap/post-deployment script opgeslagen kunnen worden** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | Er moet een locatie beschikbaar zijn waar bootstrap scripts beschikbaar worden. Deze script moeten niet publiekelijk toegankelijk zijn. |
+| **Deliverable** | IaC-code voor een opslagoplossing voor scripts |
+
+| **User story** | **Als klant wil ik dat al mijn data in de infrastructuur is versleuteld** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | Er wordt veel gehecht aan de veiligheid van de data at rest en in motion. Alle data moet versleuteld zijn. |
+| **Deliverable** | IaC-code voor versleuteling voorzieningen |
+
+| **User story** | **Als klant wil ik iedere dag een backup hebben dat 7 dagen behouden wordt** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De klant wil graag dat er een backup beschikbaar is, mocht het nodig zijn om de servers terug te brengen naar een eerdere staat. (Zorg ervoor dat de Backup ook daadwerkelijk werkt) |
+| **Deliverable** | IaC-code voor backup voorzieningen |
+
+| **User story** | **Als klant wil ik weten hoe ik de applicatie kan gebruiken** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | Zorg dat de klant kan begrijpen hoe deze de applicatie kan gebruiken. Zorg dat het duidelijk is wat de klant moet configureren voor de deployment kan starten en welke argumenten het programma nodig heeft. |
+| **Deliverable** | Documentatie voor het gebruik van de applicatie |
+
+| **User story** | **Als klant wil ik een MVP kunnen deployen om te testen** |
+| -------------- | -------------------------------| 
+| **Epic** | v1.0 |
+| **Beschrijving** | De klant wil zelf intern je architectuur testen voordat ze de code gaan gebruiken in productie. Zorg ervoor dat er configuratie beschikbaar is waarmee de klant een MVP kan deployen. |
+| **Deliverable** | Configuratie voor een MVP deployment |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
