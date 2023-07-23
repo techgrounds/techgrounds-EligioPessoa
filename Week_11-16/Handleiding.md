@@ -35,13 +35,15 @@ python -m pip install -r requirements.txt
 
 ```
 
-- Copieer het bestand 'pro-01-cdk.py' naar de folder "~/pro-01-cdk/pro_01_cdk"
-
+- Kopiëer het bestand 'pro-01-cdk.py' vanuit de repository naar de folder "~/pro-01-cdk/pro_01_cdk" en vervang met degene die daar is.
+ - Kopiëer en vervang de bestanden "cdk.json" en "app.py" naar de folder "~/pro-01-cdk"
 
 - In de terminal, voer uit de command "cdk synth" in de folder "~/pro-01-cdk"
 
 
+
 (Versie 1.1: Doe hetzelfde voor de folder van versie 1.1)
+
 
 
 # Provisionele toepassingen om de stack te kunnen deployen
@@ -99,4 +101,8 @@ De volgende commands horen uitgevoerd te worden in de (VSCode) CLI
 - Deploy je stack de CLI, in de folder waar het project staat:
 
 `cdk deploy --context ip_address=your_ip/32`
+
+## Om een backup te herstellen:
+
+- Volg de aanwijzingen in: https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-resource.html
 
