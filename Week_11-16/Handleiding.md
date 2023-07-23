@@ -59,18 +59,12 @@ De volgende commands horen uitgevoerd te worden in de (VSCode) CLI
 
 ## Creër een key pair:
 
-- `aws ec2 create-key-pair --key-name your_key --query 'KeyMaterial' --output text > your_key.pem`
+- Creër een key-pair en bewaar de private key in een locale bestand: `aws ec2 create-key-pair --key-name your_key --query 'KeyMaterial' --output text > your_key.pem`
 - Als je vanuit Windows werkt, zorg dat de key in de goede formaat is: save file as UTF-8
+- In het bestand Pro-1_1_cdk_stack.py, vervang bij `def setup_ec2` en `def setup_ec2` de `key_name` met je eigen key.
 
 
-- Bij ec2 instance connect voer de volgende commands uit:
-```
-nano ~/.ssh/your_key.pem
 
-chmod 400 ~/.ssh/your_key.pem
-
-ssh -i ~/.ssh/your_key.pem ec2-user@(ip van de instance waarmee je wilt verbinden)
-```
 
 ## Web Server AMI creëren
 

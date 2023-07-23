@@ -1,7 +1,7 @@
 # Voldane en ontbrekende eisen
 
 
-- Voor dit project is het zover gelukt om twee VPC's aan te maken, met verbinding aan elkaar via VPC Peering
+- Voor versie 1.0 in dit project is het zover gelukt om twee VPC's aan te maken, met verbinding aan elkaar via VPC Peering
 	- Zover is het nog niet gelukt om de NACL's te configureren om alleen de toegestane ip's in te laten.
 
 
