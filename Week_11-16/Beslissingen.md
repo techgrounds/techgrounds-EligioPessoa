@@ -1,19 +1,3 @@
-Voor het project die ik uitgevoerd heb, de volgende eisen zijn aangegeven:
-
-
-
-
-
-De volgende eisen zijn aangegeven als noodzakelijk:
-
-
-
-
-De volgende IP ranges worden gebruikt: 10.10.10.0/24 & 10.20.20.0/24
-Alle subnets moeten beschermd worden door een firewall op subnet niveau.
-SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de admin server.
-
-
 
 # Netwerk
 
@@ -54,6 +38,7 @@ De volgende eisen zijn aangegeven als noodzakelijk:
 De webserver moet op een geautomatiseerde manier geïnstalleerd worden.
 De admin/management server moet bereikbaar zijn met een publiek IP.
 De admin/management server moet alleen bereikbaar zijn van vertrouwde locaties (office/admin’s thuis)
+SSH of RDP verbindingen met de webserver mogen alleen tot stand komen vanuit de admin server.
 
 
 - De product owner heeft aangegeven dat er piektijden zijn. Daardoor wordt er er een auto-scaler samen met een load balancer toegepast. Die zal gekoppeld zijn aan de webserver. 
