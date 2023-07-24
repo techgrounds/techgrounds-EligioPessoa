@@ -28,3 +28,5 @@ De redenen waarom het project nog niet volledig af is zijn:
 	- Omdat er met CDkv2 gewerkt wordt, is er weinig documentatie beschikbaar om valkuilen op te lossen.
 
 Door deze redenen, heeft het ontwerpen van het project langer geduurd dan gepland.
+
+![diagram](https://github.com/techgrounds/techgrounds-EligioPessoa/blob/main/00_includes/Copy%20of%20cdk-project-01.drawio.png)
