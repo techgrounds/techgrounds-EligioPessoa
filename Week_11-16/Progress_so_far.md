@@ -1,4 +1,4 @@
-# Voldane en ontbrekende eisen
+# Versie 1.0: Voldane en ontbrekende eisen
 
 
 - Voor versie 1.0 in dit project is het zover gelukt om twee VPC's aan te maken, met verbinding aan elkaar via VPC Peering
